@@ -162,6 +162,8 @@ void GUI_HexFractal::setGUI(){
     gui->addIntSlider("Num of Recursion", 1, 10, numRecursion);
     gui->addSpacer();
     gui->addIntSlider("Fineness", 3, 10, fineness);
+    gui->addSpacer();
+    gui->addIntSlider("Height", 10, 100, height);
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -181,6 +183,9 @@ void GUI_HexFractal::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Fineness"){
         ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
         obj->setFineness(n->getValue());
+    }else if(name == "Height"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setHeight(n->getValue());
     }
 
 }

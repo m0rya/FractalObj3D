@@ -85,46 +85,7 @@ void HexFractal::recursion(vector<ofVec3f> point, int n){
     recursion(newPoint, n-1);
 }
 
-/*
-void HexFractal::recursion(ofVec3f point[6], int n){
-    if(n == 0){
-        closeMesh(point);
-        return;
-    }
-    
-    ofVec3f newPoint[6];
-    
-    for(int i=0; i<6; i++){
-        newPoint[i] = (point[i]+point[(i+1)%6])/2;
-        newPoint[i].y += height;
-    }
-    
-    
-    int numVertices = mesh.getNumVertices();
-    
-    //add mesh
-    for(int i=0; i<6; i++){
-        mesh.addVertex(point[i]);
-        mesh.addNormal((point[i]-center).normalize());
-        mesh.addColor(ofColor(255, 255));
-    }
-    for(int i=0; i<6; i++){
-        mesh.addVertex(newPoint[i]);
-        mesh.addNormal((newPoint[i]-center).normalize());
-        mesh.addColor(ofColor(255, 255));
-    }
-    
-    //add triangle
-    
-    for(int i=0; i<6; i++){
-        mesh.addTriangle(numVertices+6+i, numVertices+(1+i)%6, numVertices+(i+2)%6);
-        mesh.addTriangle(numVertices+(i+2)%6, numVertices+6+i, numVertices+6+(i+1)%6);
-    }
-    
-    recursion(newPoint, n-1);
-    
-}
- */
+
 
 void HexFractal::closeMesh(vector<ofVec3f> point) {
     
@@ -146,29 +107,7 @@ void HexFractal::closeMesh(vector<ofVec3f> point) {
         mesh.addTriangle(numVertices+fineness, numVertices+i, numVertices+(i+1)%fineness);
     }
 }
-/*
-void HexFractal::closeMesh(ofVec3f point[6]){
-    ofVec3f cnt = ofVec3f(0, point[0].y, 0);
-    
-    int numVertices = mesh.getNumVertices();
 
-    
-    for(int i=0; i<6; i++){
-        mesh.addVertex(point[i]);
-        mesh.addColor(ofColor(255, 255));
-        mesh.addNormal((point[i]-cnt).normalize());
-    }
-    mesh.addVertex(cnt);
-    mesh.addNormal(ofVec3f(0, 1, 0));
-    mesh.addColor(ofColor(255, 255));
-    
-    for(int i=0; i<6; i++){
-        mesh.addTriangle(numVertices+6, numVertices+i, numVertices+(i+1)%6);
-        
-    }
-}
-
- */
 
 void HexFractal::setNumRecursion(int n){
     numRecursion = n;
@@ -177,5 +116,11 @@ void HexFractal::setNumRecursion(int n){
 
 void HexFractal::setFineness(int n){
     fineness = n;
+    initRecursion();
+}
+
+void HexFractal::setHeight(float _height){
+    
+    height = _height;
     initRecursion();
 }

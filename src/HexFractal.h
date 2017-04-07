@@ -20,7 +20,8 @@ private:
     
     ofMesh mesh;
     int numRecursion;
-    int height;
+    float height;
+    
     vector<ofVec3f> point;
     vector<ofVec3f> newPoint;
     
@@ -39,6 +40,7 @@ public:
     //setter
     void setNumRecursion(int n);
     void setFineness(int n);
+    void setHeight(float _height);
     
 };
 
