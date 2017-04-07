@@ -60,9 +60,11 @@ void ofApp::setup(){
     
     //seting for Superposition
     sp.calcMesh();
+    //sp.setStlFile(&stl);
     
     //setting for HexFractal
     hf.initRecursion();
+    hf.setStlFile(&stl);
     
     
     

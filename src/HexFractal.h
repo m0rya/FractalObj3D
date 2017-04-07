@@ -11,17 +11,23 @@
 
 #include <stdio.h>
 #include <ofMain.h>
+#include <makeStl.h>
+
 
 class HexFractal{
 private:
     ofVec3f center;
     float radius;
     int fineness;
-    
-    ofMesh mesh;
     int numRecursion;
     float height;
+    int mode = 0;
     
+    bool outputStl = false;
+    
+    makeStl* stl;
+    
+    ofMesh mesh;
     vector<ofVec3f> point;
     vector<ofVec3f> newPoint;
     
@@ -35,12 +41,16 @@ public:
     HexFractal(int _numRecursion, float _radius);
     void draw();
     void initRecursion();
+    void outputStlFile();
     
     
     //setter
     void setNumRecursion(int n);
     void setFineness(int n);
     void setHeight(float _height);
+    void setRadius(float _radius);
+    void setStlFile(makeStl* _stl);
+    void setMode(int _mode);
     
 };
 

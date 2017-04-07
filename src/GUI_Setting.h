@@ -80,6 +80,7 @@ public:
     float numRecursion = 3;
     float fineness;
     float height;
+    float radius;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

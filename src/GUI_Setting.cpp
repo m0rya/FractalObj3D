@@ -158,12 +158,24 @@ GUI_HexFractal::~GUI_HexFractal(){
 void GUI_HexFractal::setGUI(){
     gui = new ofxUISuperCanvas("GUI HexFractal", OFX_UI_FONT_MEDIUM);
     
+    vector<string> names;
+    for(int i=0; i<2; i++){
+        names.push_back(ofToString(i));
+    }
+    
     gui->addSpacer();
     gui->addIntSlider("Num of Recursion", 1, 10, numRecursion);
     gui->addSpacer();
     gui->addIntSlider("Fineness", 3, 10, fineness);
     gui->addSpacer();
     gui->addIntSlider("Height", 10, 100, height);
+    gui->addSpacer();
+    gui->addIntSlider("Radius", 10, 200, radius);
+    gui->addSpacer();
+    gui->addButton("output STL file", false);
+    gui->addDropDownList("Mode", names);
+    gui->addSpacer();
+    
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -186,6 +198,17 @@ void GUI_HexFractal::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Height"){
         ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
         obj->setHeight(n->getValue());
+    }else if(name == "Radius"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setRadius(n->getValue());
+    }else if(name == "output STL file"){
+        obj->outputStlFile();
+    }else if(name == "Mode"){
+        ofxUIDropDownList *n = (ofxUIDropDownList *)e.widget;
+        vector<ofxUIWidget *> &selected = n->getSelected();
+        if(selected.size() == 1){
+            obj->setMode(ofToInt(selected[0]->getName()));
+        }       
     }
 
 }

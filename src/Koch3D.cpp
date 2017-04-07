@@ -188,7 +188,8 @@ void Koch3D::recursion(ofVec3f point[3], ofVec3f axis, int n){
             mesh.addColor(makeColorFromPoint(point[i]));
         }
         mesh.addTriangle(numVertices, numVertices+1, numVertices+2);
-        
+       
+        //wrting STL File
         if(outputStl){
             //newPoint[3] = topPoint;
             
