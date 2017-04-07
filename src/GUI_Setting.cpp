@@ -116,7 +116,78 @@ void GUI_pythagorasTree3D::draw(){
 }
 
 
+//===========GUI_Superposition==============
+GUI_Superposition::GUI_Superposition(Superposition &_obj){
+    obj = &_obj;
+}
 
+GUI_Superposition::~GUI_Superposition(){
+    delete gui;
+}
+void GUI_Superposition::setGUI(){
+    gui = new ofxUISuperCanvas("GUI Superposition", OFX_UI_FONT_MEDIUM);
+    
+    gui->addSpacer();
+    
+    gui->setTheme(theme);
+    gui->setVisible(false);
+    gui->autoSizeToFitWidgets();
+    
+    ofAddListener(gui->newGUIEvent, this, &GUI_Superposition::guiEvent);
+}
+
+void GUI_Superposition::guiEvent(ofxUIEventArgs &e){
+    string name = e.widget->getName();
+    
+    
+}
+
+void GUI_Superposition::draw(){
+    obj->draw();
+}
+
+//===========GUI_HexFractal==============
+GUI_HexFractal::GUI_HexFractal(HexFractal &_obj){
+    obj = &_obj;
+}
+
+GUI_HexFractal::~GUI_HexFractal(){
+    delete gui;
+}
+
+void GUI_HexFractal::setGUI(){
+    gui = new ofxUISuperCanvas("GUI HexFractal", OFX_UI_FONT_MEDIUM);
+    
+    gui->addSpacer();
+    gui->addIntSlider("Num of Recursion", 1, 10, numRecursion);
+    gui->addSpacer();
+    gui->addIntSlider("Fineness", 3, 10, fineness);
+    
+    gui->setTheme(theme);
+    gui->setVisible(false);
+    gui->autoSizeToFitWidgets();
+    
+    ofAddListener(gui->newGUIEvent, this, &GUI_HexFractal::guiEvent);
+    
+}
+
+void GUI_HexFractal::guiEvent(ofxUIEventArgs &e){
+    string name = e.widget->getName();
+    
+    
+    if(name == "Num of Recursion"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setNumRecursion(n->getValue());
+    }else if(name == "Fineness"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setFineness(n->getValue());
+    }
+
+}
+
+void GUI_HexFractal::draw(){
+    obj->draw();
+}
 
 
 

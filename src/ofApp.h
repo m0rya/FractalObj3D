@@ -7,6 +7,8 @@
 #include "makeStl.h"
 #include "GUI_Setting.h"
 #include "ofxExportImageSequence.h"
+#include "Superposition.h"
+#include "HexFractal.h"
 
 
 class ofApp : public ofBaseApp{

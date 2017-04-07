@@ -10,6 +10,8 @@
 		0405AA371E7AC8BE000C4966 /* Koch3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0405AA351E7AC8BD000C4966 /* Koch3D.cpp */; };
 		041478C91E92960400052AA3 /* ofxExportImageSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 041478BC1E92960400052AA3 /* ofxExportImageSequence.cpp */; };
 		041478CA1E92960400052AA3 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 041478C81E92960400052AA3 /* libtiff.a */; };
+		041478D21E972C5300052AA3 /* Superposition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 041478D01E972C5300052AA3 /* Superposition.cpp */; };
+		041478D51E97788C00052AA3 /* HexFractal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 041478D31E97788C00052AA3 /* HexFractal.cpp */; };
 		044FB6951E8CD11C0098BA50 /* ofxVectorGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044FB68F1E8CD11C0098BA50 /* ofxVectorGraphics.cpp */; };
 		044FB6961E8CD11C0098BA50 /* CreEPS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044FB6921E8CD11C0098BA50 /* CreEPS.cpp */; };
 		044FB6F71E8CD1200098BA50 /* ofxUI2DGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 044FB69A1E8CD1200098BA50 /* ofxUI2DGraph.cpp */; };
@@ -109,6 +111,10 @@
 		041478C41E92960400052AA3 /* tiffio.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tiffio.hxx; sourceTree = "<group>"; };
 		041478C51E92960400052AA3 /* tiffvers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tiffvers.h; sourceTree = "<group>"; };
 		041478C81E92960400052AA3 /* libtiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtiff.a; sourceTree = "<group>"; };
+		041478D01E972C5300052AA3 /* Superposition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Superposition.cpp; sourceTree = "<group>"; };
+		041478D11E972C5300052AA3 /* Superposition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Superposition.h; sourceTree = "<group>"; };
+		041478D31E97788C00052AA3 /* HexFractal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HexFractal.cpp; sourceTree = "<group>"; };
+		041478D41E97788C00052AA3 /* HexFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexFractal.h; sourceTree = "<group>"; };
 		044FB68F1E8CD11C0098BA50 /* ofxVectorGraphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxVectorGraphics.cpp; sourceTree = "<group>"; };
 		044FB6901E8CD11C0098BA50 /* ofxVectorGraphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxVectorGraphics.h; sourceTree = "<group>"; };
 		044FB6921E8CD11C0098BA50 /* CreEPS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CreEPS.cpp; sourceTree = "<group>"; };
@@ -459,6 +465,10 @@
 				048E31071E7F10430049BA53 /* RectDivision3D.cpp */,
 				047D0DAB1E8B99720052EF9B /* pythagorasTree3D.hpp */,
 				047D0DAA1E8B99720052EF9B /* pythagorasTree3D.cpp */,
+				041478D01E972C5300052AA3 /* Superposition.cpp */,
+				041478D11E972C5300052AA3 /* Superposition.h */,
+				041478D31E97788C00052AA3 /* HexFractal.cpp */,
+				041478D41E97788C00052AA3 /* HexFractal.h */,
 			);
 			name = FlactalObj;
 			sourceTree = "<group>";
@@ -672,6 +682,7 @@
 				044FB6FE1E8CD1200098BA50 /* ofxUIDragableLabelButton.cpp in Sources */,
 				044FB7011E8CD1200098BA50 /* ofxUIFPS.cpp in Sources */,
 				044FB7171E8CD1200098BA50 /* ofxUISpacer.cpp in Sources */,
+				041478D21E972C5300052AA3 /* Superposition.cpp in Sources */,
 				044FB71B1E8CD1200098BA50 /* ofxUITextArea.cpp in Sources */,
 				044FB71E1E8CD1200098BA50 /* ofxUIToggleMatrix.cpp in Sources */,
 				044FB6FF1E8CD1200098BA50 /* ofxUIDropDownList.cpp in Sources */,
@@ -700,6 +711,7 @@
 				044FB71F1E8CD1200098BA50 /* ofxUIValuePlotter.cpp in Sources */,
 				0405AA371E7AC8BE000C4966 /* Koch3D.cpp in Sources */,
 				044FB7061E8CD1200098BA50 /* ofxUIImageSlider.cpp in Sources */,
+				041478D51E97788C00052AA3 /* HexFractal.cpp in Sources */,
 				044FB7191E8CD1200098BA50 /* ofxUISuperCanvas.cpp in Sources */,
 				044FB7001E8CD1200098BA50 /* ofxUIEventArgs.cpp in Sources */,
 			);

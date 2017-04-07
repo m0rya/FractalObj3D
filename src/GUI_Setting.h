@@ -16,12 +16,15 @@
 #include "Koch3D.h"
 #include "RectDivision3D.h"
 #include "pythagorasTree3D.hpp"
+#include "Superposition.h"
+#include "HexFractal.h"
 
 #include "ofxUI.h"
 
 class GUIBase{
 public:
     ofxUISuperCanvas *gui;
+    int theme = 9;
     virtual void guiEvent(ofxUIEventArgs &e) = 0;
     virtual void setGUI() = 0;
     virtual void draw() = 0;
@@ -54,5 +57,33 @@ public:
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);
     void draw();
+};
+
+class GUI_Superposition : public GUIBase{
+public:
+    GUI_Superposition(Superposition &_obj);
+    ~GUI_Superposition();
+    
+    Superposition *obj;
+    
+    void setGUI();
+    void guiEvent(ofxUIEventArgs &e);
+    void draw();
+};
+
+class GUI_HexFractal : public GUIBase{
+public:
+    GUI_HexFractal(HexFractal &_obj);
+    ~GUI_HexFractal();
+    
+    HexFractal *obj;
+    float numRecursion = 3;
+    float fineness;
+    
+    void setGUI();
+    void guiEvent(ofxUIEventArgs &e);
+    void draw();
+    
+    
 };
 #endif /* defined(__Koch3D__GUI_Setting__) */

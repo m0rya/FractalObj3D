@@ -9,13 +9,19 @@ ofVec3f lightPos;
 
 pythagorasTree3D pyTree(100, 5, &stl);
 
+Superposition sp(3, 100, 50);
+
+HexFractal hf(5, 100);
 
 //GUI
 int theme = 9;
-int drawMode = 0;
+int drawMode = 3;
 GUI_Koch3D gui_koch(koch3d);
 GUI_pythagorasTree3D gui_pyTree(pyTree);
-GUIBase *guiArray[] = {&gui_koch, &gui_pyTree};
+GUI_Superposition gui_sp(sp);
+GUI_HexFractal gui_hf(hf);
+
+GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf};
 
 ofxUISuperCanvas *fractalList;
 ofxUIDropDownList *ddl;
@@ -52,6 +58,12 @@ void ofApp::setup(){
     pyTree.setOutputStl(true);
     pyTree.initRecursion();
     
+    //seting for Superposition
+    sp.calcMesh();
+    
+    //setting for HexFractal
+    hf.initRecursion();
+    
     
     
     //GUI ddl
@@ -61,6 +73,8 @@ void ofApp::setup(){
     vector<string> names;
     names.push_back("Koch3D");
     names.push_back("PythagorasTree3D");
+    names.push_back("Superposition");
+    names.push_back("HexFractal");
     
     fractalList->setWidgetFontSize(OFX_UI_FONT_SMALL);
     ddl = fractalList->addDropDownList("Fractal List", names);
@@ -138,6 +152,12 @@ void ofApp::guiEvent_ddl(ofxUIEventArgs &e){
             }else if(selected[0]->getName() == "PythagorasTree3D"){
                 guiArray[drawMode]->gui->disable();
                 drawMode = 1;
+            }else if(selected[0]->getName() == "Superposition"){
+                guiArray[drawMode]->gui->disable();
+                drawMode = 2;
+            }else if(selected[0]->getName() == "HexFractal"){
+                guiArray[drawMode]->gui->disable();
+                drawMode = 3;
             }
         }
     }
