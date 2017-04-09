@@ -78,9 +78,11 @@ public:
     
     HexFractal *obj;
     float numRecursion = 3;
-    float fineness;
-    float height;
-    float radius;
+    float fineness = 6;
+    float height = 20;
+    float radius = 50;
+    float addingAngle = 10;
+    float addingRadius = 0;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

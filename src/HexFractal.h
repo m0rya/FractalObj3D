@@ -23,6 +23,12 @@ private:
     float height;
     int mode = 0;
     
+    float differForAngle = 0;
+    float addingAngle = 10;
+    
+    float differForRadius = 0;
+    float addingRadius = 0;
+    
     bool outputStl = false;
     
     makeStl* stl;
@@ -35,6 +41,7 @@ private:
     void recursion(vector<ofVec3f> point, int n);
     //void closeMesh(ofVec3f point[6]);
     void closeMesh(vector<ofVec3f> point);
+    ofColor makeColorFromPoint(ofVec3f point, int max=500);
     
     
 public:
@@ -51,6 +58,8 @@ public:
     void setRadius(float _radius);
     void setStlFile(makeStl* _stl);
     void setMode(int _mode);
+    void setAddingAngle(float _addingAngle);
+    void setAddingRadius(float _addingRadius);
     
 };
 

@@ -172,6 +172,10 @@ void GUI_HexFractal::setGUI(){
     gui->addSpacer();
     gui->addIntSlider("Radius", 10, 200, radius);
     gui->addSpacer();
+    gui->addIntSlider("Adding Angle", 0, 180, addingAngle);
+    gui->addSpacer();
+    gui->addIntSlider("Adding Radius", -20, 20, addingRadius);
+    gui->addSpacer();
     gui->addButton("output STL file", false);
     gui->addDropDownList("Mode", names);
     gui->addSpacer();
@@ -209,6 +213,13 @@ void GUI_HexFractal::guiEvent(ofxUIEventArgs &e){
         if(selected.size() == 1){
             obj->setMode(ofToInt(selected[0]->getName()));
         }       
+    }else if(name == "Adding Angle"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setAddingAngle(n->getValue());
+        
+    }else if(name == "Adding Radius"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setAddingRadius(n->getValue());
     }
 
 }
