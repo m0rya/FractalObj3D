@@ -29,6 +29,8 @@ private:
     float differForRadius = 0;
     float addingRadius = 0;
     
+    float addingY = 0;
+    
     bool outputStl = false;
     
     makeStl* stl;
@@ -42,6 +44,7 @@ private:
     //void closeMesh(ofVec3f point[6]);
     void closeMesh(vector<ofVec3f> point);
     ofColor makeColorFromPoint(ofVec3f point, int max=500);
+    void clear();
     
     
 public:
@@ -60,6 +63,7 @@ public:
     void setMode(int _mode);
     void setAddingAngle(float _addingAngle);
     void setAddingRadius(float _addingRadius);
+    void setAddingY(float _addingY);
     
 };
 
