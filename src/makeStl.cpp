@@ -21,6 +21,7 @@ string makeStl::getFileName(){
 
 void makeStl::clear(){
     finish = false;
+    
     text = "solid OBJECT\n";
 }
 
@@ -33,10 +34,8 @@ void makeStl::addMeshes(ofVec3f point[], int index[][3], int indexSize){
         tmpPoint[1] = point[index[i][1]];
         tmpPoint[2] = point[index[i][2]];
         
-        ofVec3f normal = tmpPoint[1] - tmpPoint[0];
-        ofVec3f materialForNormal = tmpPoint[2] - tmpPoint[0];
-        
-        normal.perpendicular(materialForNormal);
+        ofVec3f normal = (tmpPoint[1]-tmpPoint[0]).perpendicular(tmpPoint[2]-tmpPoint[0]);
+        normal.normalize();
         
         addMesh(tmpPoint, normal);
     }
@@ -45,20 +44,22 @@ void makeStl::addMeshes(ofVec3f point[], int index[][3], int indexSize){
 
 void makeStl::addMesh(ofVec3f point[], ofVec3f normal){
     string tmpText;
-    
     tmpText += "\tfacet normal";
     
     string norVec[3];
-    normal.normalize();
+    //normal.normalize();
     
-    norVec[0] = float2E((float)normal.x);
-    norVec[1] = float2E((float)normal.y);
-    norVec[2] = float2E((float)normal.z);
     
+    /*
+    //norVec[0] = float2E((float)normal.x);
+    //norVec[1] = float2E((float)normal.y);
+    //norVec[2] = float2E((float)normal.z);
     for(int i=0; i<3; i++){
-        tmpText += (" " + norVec[i]);
-        
+        //tmpText += (" " + norVec[i]);
     }
+     */
+    
+    tmpText += (" " + ofToString((float)normal.x) + " " + ofToString((float)normal.y) + " " + ofToString((float)normal.z));
     tmpText += "\n\t\touter loop\n";
     
     
@@ -69,13 +70,15 @@ void makeStl::addMesh(ofVec3f point[], ofVec3f normal){
         tmp[2] = float2E((float)point[i].z);
         
         tmpText += "\t\t\tvertex";
+        
         for(int j=0; j<3; j++){
-            tmpText += (" " + tmp[j]);
+            //tmpText += (" " + tmp[j]);
         }
+        tmpText += (" " + ofToString((float)point[i].x) + " " + ofToString((float)point[i].y) + " " + ofToString((float)point[i].z));
         tmpText += "\n";
         
     }
-    tmpText += "\t\tendloop\n\tendfacet\n\n";
+    tmpText += "\t\tendloop\n\tendfacet\n";
     
     this->text += tmpText;
 }
@@ -125,7 +128,7 @@ string makeStl::float2E(float var){
 
 void makeStl::outputFile(){
     if(!finish){
-        text += "\nendsolid OBJECT\n";
+        text += "endsolid OBJECT\n";
         finish = true;
     }
     
@@ -133,3 +136,17 @@ void makeStl::outputFile(){
     ofBuffer buffer = ofBuffer(text);
     ofBufferToFile(fileName, buffer);
 }
+
+
+ofVec3f makeStl::getNormal(ofVec3f point[3]){
+    ofVec3f tmp[2];
+    ofVec3f normal;
+    tmp[0] = point[1] - point[0];
+    tmp[1] = point[2] - point[0];
+    
+    normal = ofVec3f(tmp[0].y*tmp[1].z-tmp[0].z*tmp[1].y, tmp[0].z*tmp[1].x-tmp[0].x*tmp[1].z, tmp[0].x*tmp[1].y-tmp[0].y*tmp[1].x);
+    normal.normalize();
+    
+    return normal;
+}
+

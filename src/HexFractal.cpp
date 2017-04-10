@@ -24,8 +24,6 @@ HexFractal::HexFractal(int _numRecursion, float _radius){
     height = 30;
     initRecursion();
     
-    //test for gl_triangle
-    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
 }
 
 
@@ -34,6 +32,7 @@ HexFractal::HexFractal(int _numRecursion, float _radius){
 void HexFractal::draw(){
     ofTranslate(0, -100, 0);
     mesh.draw();
+    
     ofTranslate(0, 0, 0);
 }
 
@@ -43,6 +42,7 @@ void HexFractal::clear(){
     point.clear();
     differForRadius = radius;
     center.y = 0;
+    
 }
 
 //Caluculating and Recursion Meshes
@@ -56,7 +56,7 @@ void HexFractal::initRecursion(){
         point.push_back(ofVec3f(center.x + differForRadius*cos(2*PI*i/fineness + differForAngle*PI/180), center.y, center.z + differForRadius*sin(2*PI*i/fineness + differForAngle*PI/180)));
     }
     
-    closeMesh(point);
+    closeMesh(point, 0);
     
     recursion(point, numRecursion);
 }
@@ -64,7 +64,7 @@ void HexFractal::initRecursion(){
 void HexFractal::recursion(vector<ofVec3f> point, int n){
     //finish recursion with closing top mesh
     if(n == 0) {
-        closeMesh(point);
+        closeMesh(point, 1);
         return;
     }
     
@@ -123,31 +123,32 @@ void HexFractal::recursion(vector<ofVec3f> point, int n){
         for(int i=0; i<fineness; i++){
             if(mode == 0){
                 pointForStl[0] = newPoint[i];
-                pointForStl[1] = point[(i+1)%fineness];
-                pointForStl[2] = point[(i+2)%fineness];
-                normal = (pointForStl[0]-center).normalize();
+                pointForStl[2] = point[(i+1)%fineness];
+                pointForStl[1] = point[(i+2)%fineness];
+                normal = getNormal(pointForStl);
                 
                 stl->addMesh(pointForStl, normal);
                 
-
                 pointForStl[0] = point[(i+2)%fineness];
-                pointForStl[1] = newPoint[i];
                 pointForStl[2] = newPoint[(i+1)%fineness];
-                normal = (pointForStl[0]-center).normalize();
+                pointForStl[1] = newPoint[i];
+                normal = getNormal(pointForStl);
                 
                 stl->addMesh(pointForStl, normal);
                 
             }else if(mode == 1){
                 pointForStl[0] = newPoint[i];
-                pointForStl[1] = point[i];
-                pointForStl[2] = point[(i+1)%fineness];
-                normal = (pointForStl[0]-center).normalize();
+                pointForStl[2] = point[i];
+                pointForStl[1] = point[(i+1)%fineness];
+                normal = getNormal(pointForStl);
+                
                 stl->addMesh(pointForStl, normal);
                 
                 pointForStl[0] = point[(i+1)%fineness];
-                pointForStl[1] = newPoint[i];
                 pointForStl[2] = newPoint[(i+1)%fineness];
-                normal = (pointForStl[0]-center).normalize();
+                pointForStl[1] = newPoint[i];
+                normal = getNormal(pointForStl);
+                
                 stl->addMesh(pointForStl, normal);
                 
             }
@@ -158,7 +159,7 @@ void HexFractal::recursion(vector<ofVec3f> point, int n){
 
 
 
-void HexFractal::closeMesh(vector<ofVec3f> point) {
+void HexFractal::closeMesh(vector<ofVec3f> point, int upOrDown) {
     
     ofVec3f cnt = ofVec3f(0, point[0].y, 0);
     
@@ -171,12 +172,6 @@ void HexFractal::closeMesh(vector<ofVec3f> point) {
         
     }
     
-    /*
-    mesh.addVertex(cnt);
-    mesh.addNormal(ofVec3f(0, 1, 0));
-    mesh.addColor(makeColorFromPoint(cnt, 200));
-     */
-    
     for(int i=0; i<fineness-2; i++){
         //mesh.addTriangle(numVertices+fineness, numVertices+i, numVertices+(i+1)%fineness);
         mesh.addTriangle(numVertices, numVertices+i+1, numVertices+i+2);
@@ -186,11 +181,18 @@ void HexFractal::closeMesh(vector<ofVec3f> point) {
     if(outputStl){
         ofVec3f pointForStl[3];
         ofVec3f normal;
-        for(int i=0; i<fineness; i++){
-            pointForStl[0] = cnt;
-            pointForStl[1] = point[i];
-            pointForStl[2] = point[(i+1)%fineness];
-            normal = (pointForStl[0]-cnt).normalize();
+        for(int i=0; i<fineness-2; i++){
+            if(upOrDown == 0){
+                pointForStl[0] = point[0];
+                pointForStl[1] = point[i+1];
+                pointForStl[2] = point[i+2];
+                
+            }else if(upOrDown == 1){
+                pointForStl[0] = point[0];
+                pointForStl[1] = point[i+2];
+                pointForStl[2] = point[i+1];
+            }
+            normal = getNormal(pointForStl);
             
             stl->addMesh(pointForStl, normal);
         }
@@ -213,6 +215,19 @@ ofColor HexFractal::makeColorFromPoint(ofVec3f point, int max){
     
     ofColor result = ofColor(ofMap(point.x, -max, max, 0, 255), ofMap(point.y, -max, max*2, 0, 255), ofMap(point.z, -max, max, 0, 255, 250));
     return result;
+}
+
+ofVec3f HexFractal::getNormal(ofVec3f points[3]){
+    ofVec3f tmp[2];
+    ofVec3f normal;
+    tmp[0] = points[1]-points[0];
+    tmp[1] = points[2]-points[0];
+    
+    normal = ofVec3f(tmp[0].y*tmp[1].z-tmp[0].z*tmp[1].y, tmp[0].z*tmp[1].x-tmp[0].x*tmp[1].z, tmp[0].x*tmp[1].y-tmp[0].y*tmp[1].x);
+    normal.normalize();
+    
+    return normal;
+    
 }
 
 //Setter

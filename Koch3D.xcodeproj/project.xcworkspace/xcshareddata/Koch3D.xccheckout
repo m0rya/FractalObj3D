@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>36F5FFDD-B503-4E11-AC65-258E966D30BF</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Koch3D</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>93D51DAACBAD577D44FCDAB973635155DD67C8D0</key>
 		<string>https://github.com/m0rya/FractalObj3D.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Koch3D.xcodeproj/project.xcworkspace</string>
+	<string>Koch3D.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>93D51DAACBAD577D44FCDAB973635155DD67C8D0</key>

@@ -39,12 +39,20 @@ private:
     vector<ofVec3f> point;
     vector<ofVec3f> newPoint;
     
+    
+    //for debug
+    vector<ofVec3f> normals;
+    vector<ofVec3f> originPoints;
+    
     //void recursion(ofVec3f point[6], int n);
     void recursion(vector<ofVec3f> point, int n);
     //void closeMesh(ofVec3f point[6]);
-    void closeMesh(vector<ofVec3f> point);
+    void closeMesh(vector<ofVec3f> point, int upOrDown);
     ofColor makeColorFromPoint(ofVec3f point, int max=500);
     void clear();
+    
+    ofVec3f getNormal(ofVec3f points[3]);
+    
     
     
 public:

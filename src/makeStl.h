@@ -19,6 +19,9 @@ private:
     string text="";
     string fileName;
     bool finish = false;
+    
+    ofVec3f getNormal(ofVec3f point[3]);
+    
 public:
     
     makeStl(string _fileName);
