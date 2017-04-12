@@ -18,6 +18,7 @@
 #include "pythagorasTree3D.hpp"
 #include "Superposition.h"
 #include "HexFractal.h"
+#include "GeometricShapes.h"
 
 #include "ofxUI.h"
 
@@ -88,6 +89,23 @@ public:
     void guiEvent(ofxUIEventArgs &e);
     void draw();
     
+    
+};
+
+
+class GUI_truncatedTetrahedron : public GUIBase{
+public:
+    GUI_truncatedTetrahedron(truncatedTetrahedron &_obj);
+    ~GUI_truncatedTetrahedron();
+    
+    truncatedTetrahedron *obj;
+    float radius = 200;
+    float fineness = 1;
+    float itr = 0;
+    
+    void setGUI();
+    void guiEvent(ofxUIEventArgs &e);
+    void draw();
     
 };
 #endif /* defined(__Koch3D__GUI_Setting__) */

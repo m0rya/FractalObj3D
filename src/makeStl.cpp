@@ -34,8 +34,7 @@ void makeStl::addMeshes(ofVec3f point[], int index[][3], int indexSize){
         tmpPoint[1] = point[index[i][1]];
         tmpPoint[2] = point[index[i][2]];
         
-        ofVec3f normal = (tmpPoint[1]-tmpPoint[0]).perpendicular(tmpPoint[2]-tmpPoint[0]);
-        normal.normalize();
+        ofVec3f normal = getNormal(tmpPoint);
         
         addMesh(tmpPoint, normal);
     }

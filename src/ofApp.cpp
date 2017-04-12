@@ -13,6 +13,8 @@ Superposition sp(3, 100, 50);
 
 HexFractal hf(5, 100);
 
+truncatedTetrahedron tt(200);
+
 //GUI
 int theme = 9;
 int drawMode = 3;
@@ -20,8 +22,9 @@ GUI_Koch3D gui_koch(koch3d);
 GUI_pythagorasTree3D gui_pyTree(pyTree);
 GUI_Superposition gui_sp(sp);
 GUI_HexFractal gui_hf(hf);
+GUI_truncatedTetrahedron gui_tt(tt);
 
-GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf};
+GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf, &gui_tt};
 
 ofxUISuperCanvas *fractalList;
 ofxUIDropDownList *ddl;
@@ -50,12 +53,10 @@ void ofApp::setup(){
     
     //setting for Koch3D
     koch3d.setNoiseForTopPoint(true);
-    koch3d.setBoolOutputStl(true);
     koch3d.setStlFile(&stl);
     koch3d.setTypeOfObject("octa");
     
     //setting for pythagoras Tree
-    pyTree.setOutputStl(true);
     pyTree.initRecursion();
     
     //seting for Superposition
@@ -65,6 +66,9 @@ void ofApp::setup(){
     //setting for HexFractal
     hf.initRecursion();
     hf.setStlFile(&stl);
+    
+    //TT
+    tt.calcMesh();
     
     
     
@@ -77,6 +81,7 @@ void ofApp::setup(){
     names.push_back("PythagorasTree3D");
     names.push_back("Superposition");
     names.push_back("HexFractal");
+    names.push_back("TruncatedTetrahedron");
     
     fractalList->setWidgetFontSize(OFX_UI_FONT_SMALL);
     ddl = fractalList->addDropDownList("Fractal List", names);
@@ -160,6 +165,9 @@ void ofApp::guiEvent_ddl(ofxUIEventArgs &e){
             }else if(selected[0]->getName() == "HexFractal"){
                 guiArray[drawMode]->gui->disable();
                 drawMode = 3;
+            }else if(selected[0]->getName() == "TruncatedTetrahedron"){
+                guiArray[drawMode]->gui->disable();
+                drawMode = 4;
             }
         }
     }

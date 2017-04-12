@@ -58,7 +58,7 @@ void pythagorasTree3D::initRecursion(){
     mesh.addTriangle(1, 3, 2);
     
     int index[][3] = {
-        {0, 1, 3}, {1, 3, 2}
+        {0, 1, 2}, {0, 2, 3}
     };
     stl->addMeshes(position, index, 2);
     recursion(position, recursionNum);
@@ -73,10 +73,14 @@ void pythagorasTree3D::draw(){
 
 //output as stl file
 void pythagorasTree3D::outputStl(){
+    writeStl = true;
+    stl->clear();
+    initRecursion();
+    writeStl = false;
     
     stl->outputFile();
     
-    cout << "out put \"" + stl->getFileName() << "\"" << endl;
+    cout << "out put \"" + stl->getFileName() << "\" from pythagorasTree" << endl;
 }
 
 
@@ -205,9 +209,9 @@ void pythagorasTree3D::addTriPrism(ofVec3f point[6], int n){
     mesh.addTriangle(numVertices+3, numVertices+4, numVertices+5);
     if(n == 0){
         mesh.addTriangle(numVertices+1, numVertices+2, numVertices+4);
-        mesh.addTriangle(numVertices+2, numVertices+4, numVertices+5);
+        mesh.addTriangle(numVertices+2, numVertices+5, numVertices+4);
         
-        mesh.addTriangle(numVertices, numVertices+2, numVertices+3);
+        mesh.addTriangle(numVertices, numVertices+3, numVertices+2);
         mesh.addTriangle(numVertices+2, numVertices+3, numVertices+5);
 
     }
@@ -220,7 +224,7 @@ void pythagorasTree3D::addTriPrism(ofVec3f point[6], int n){
         
         if(n == 0){
             int index[][3] = {
-                {1, 2, 4}, {2, 4, 5}, {0, 2, 3}, {2, 3, 5}
+                {1, 2, 4}, {2, 5, 4}, {0, 3, 2}, {2, 3, 5}
             };
             stl->addMeshes(point, index, 4);
         }
@@ -318,3 +322,18 @@ ofColor pythagorasTree3D::makeColorFromPoint(ofVec3f point){
     ofColor result = ofColor(ofMap(point.x, -tmp, tmp, 0, 255), ofMap(point.y, -tmp, tmp, 0, 255), ofMap(point.z, -tmp, tmp, 0, 255), 250);
     return result;
 }
+
+
+ofVec3f pythagorasTree3D::getNormal(ofVec3f point[3]){
+    ofVec3f tmp[2];
+    ofVec3f normal;
+    tmp[0] = point[1] - point[0];
+    tmp[1] = point[2] - point[0];
+    
+    normal = ofVec3f(tmp[0].y*tmp[1].z-tmp[0].z*tmp[1].y, tmp[0].z*tmp[1].x-tmp[0].x*tmp[1].z, tmp[0].x*tmp[1].y-tmp[0].y*tmp[1].x);
+    normal.normalize();
+    
+    return normal;
+}
+
+

@@ -230,6 +230,57 @@ void GUI_HexFractal::draw(){
 
 
 
+//GUI_truncatedTetrahedron
+GUI_truncatedTetrahedron::GUI_truncatedTetrahedron(truncatedTetrahedron &_obj){
+    obj = &_obj;
+}
+
+GUI_truncatedTetrahedron::~GUI_truncatedTetrahedron(){
+    delete gui;
+}
+void GUI_truncatedTetrahedron::setGUI(){
+    gui = new ofxUISuperCanvas("GUI truncatedTetrahedron", OFX_UI_FONT_MEDIUM);
+    
+    gui->addSpacer();
+    gui->addIntSlider("Radius", 30, 400, radius);
+    gui->addSpacer();
+    gui->addIntSlider("Fineness", 1, 20, fineness);
+    gui->addSpacer();
+    gui->addIntSlider("Itr", 0, 20, itr);
+    
+    gui->setTheme(theme);
+    gui->setVisible(false);
+    gui->autoSizeToFitWidgets();
+    
+    
+    ofAddListener(gui->newGUIEvent, this, &GUI_truncatedTetrahedron::guiEvent);
+}
+
+void GUI_truncatedTetrahedron::guiEvent(ofxUIEventArgs &e){
+    string name = e.widget->getName();
+    
+    if(name == "Radius"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setRadius(n->getValue());
+    }else if(name == "Fineness"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setFineness(n->getValue());
+    }else if(name == "Itr"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setItr(n->getValue());
+    }
+    
+    
+    
+}
+
+void GUI_truncatedTetrahedron::draw(){
+    obj->draw();
+}
+
+
+
+
 
 
 

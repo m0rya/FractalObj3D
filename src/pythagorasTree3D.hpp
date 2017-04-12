@@ -29,6 +29,8 @@ private:
     bool drawWireframe = false;
     void recursion(ofVec3f point[4], int n);
     ofColor makeColorFromPoint(ofVec3f point);
+    
+    ofVec3f getNormal(ofVec3f point[3]);
 
     
 public:

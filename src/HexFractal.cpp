@@ -100,9 +100,11 @@ void HexFractal::recursion(vector<ofVec3f> point, int n){
  
     
     //add Triangle
+    ofVec3f argForNormal[3];
     for(int i=0; i<fineness; i++){
         if(mode == 0){
             mesh.addTriangle(numVertices+fineness+i, numVertices+(i+1)%fineness, numVertices+(i+2)%fineness);
+            
             mesh.addTriangle(numVertices+(i+2)%fineness, numVertices+i+fineness, numVertices+fineness+(i+1)%fineness);
             
         }else if(mode == 1){

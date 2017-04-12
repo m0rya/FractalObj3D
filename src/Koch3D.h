@@ -34,6 +34,8 @@ private:
     void recursion(ofVec3f point[3], ofVec3f axis, int n);
     ofVec3f alterTopPoint(ofVec3f point, int n);
     
+    ofVec3f getNormal(ofVec3f point[3]);
+    
     
 public:
     //constructor

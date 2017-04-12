@@ -9,6 +9,7 @@
 #include "ofxExportImageSequence.h"
 #include "Superposition.h"
 #include "HexFractal.h"
+#include "GeometricShapes.h"
 
 
 class ofApp : public ofBaseApp{
