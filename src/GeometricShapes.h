@@ -67,6 +67,9 @@ private:
     vector<ofVec3f> debugNormal;
     vector<ofVec3f> debugOrigin;
     
+    
+    bool debugOrNot = false;
+    
 public:
     
     

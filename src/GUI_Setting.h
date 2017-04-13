@@ -118,6 +118,7 @@ public:
     Triakis *obj;
     float radius = 200;
     int mode = 2;
+    float raito = 0.1;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

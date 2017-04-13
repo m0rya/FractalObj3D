@@ -298,6 +298,8 @@ void GUI_Triakis::setGUI(){
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
+    gui->addSlider("Raito", -2.0, 2.0, raito);
+    gui->addSpacer();
     gui->addDropDownList("Mode", names);
     
     gui->setTheme(theme);
@@ -320,6 +322,9 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
         if(selected.size() == 1){
             obj->setMode(ofToInt(selected[0]->getName()));
         }
+    }else if(name == "Raito"){
+        ofxUISlider *n = (ofxUISlider *)e.widget;
+        obj->setRaito(n->getValue());
     }
 }
 

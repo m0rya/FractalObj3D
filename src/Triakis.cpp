@@ -15,6 +15,7 @@ Triakis::Triakis(float _radius){
     mode = 2;
     
     mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+    calcRaito();
     calcMesh();
 }
 
@@ -34,9 +35,9 @@ void Triakis::draw(){
     mesh.drawFaces();
     ofDisableLighting();
     */
-    //debug();
     //mesh.drawVertices();
     //mesh.drawWireframe();
+
 }
 
 
@@ -50,17 +51,16 @@ void Triakis::debug(){
 
 void Triakis::calcMesh(){
     mesh.clear();
-    calcRaito();
     
     //debug
-    debugNormal.clear();
-    debugOrigin.clear();
-    
+    if(debugOrNot){
+        debugNormal.clear();
+        debugOrigin.clear();
+    }
     
     
     initOrigin();
     
-    //debug
     ofVec3f argMakeMesh[3];
     if(mode == 0){
         //tetrahedron
@@ -139,7 +139,9 @@ void Triakis::makeMesh(ofVec3f point[3]){
         //mesh.addNormal(normal);
         
         //debug
-        debugOrigin.push_back(newPoint[i]);
+        if(debugOrNot){
+            debugOrigin.push_back(newPoint[i]);
+        }
         
         ofVec3f argForNormal[3];
         if(i != 3){
@@ -149,11 +151,15 @@ void Triakis::makeMesh(ofVec3f point[3]){
             mesh.addNormal(-1 * getNormal(argForNormal));
             
             //debug
-            debugNormal.push_back(-1 * getNormal(argForNormal));
+            if(debugOrNot){
+                debugNormal.push_back(-1 * getNormal(argForNormal));
+            }
         }else{
             mesh.addNormal(normal);
             //debug
-            debugNormal.push_back(normal);
+            if(debugOrNot){
+                debugNormal.push_back(normal);
+            }
             
         }
         mesh.addColor(makeColorFromPoint(newPoint[i], radius));
@@ -264,3 +270,7 @@ void Triakis::setMode(int _mode){
     calcMesh();
 }
 
+void Triakis::setRaito(float _raito){
+    raito = _raito;
+    calcMesh();
+}
