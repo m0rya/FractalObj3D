@@ -14,7 +14,6 @@
 #include <makeStl.h>
 
 
-//どう分割するかのGUIを作る
 
 class truncatedTetrahedron{
 private:
@@ -42,6 +41,46 @@ public:
     void setFineness(int _fineness);
     void setItr(int _itr);
     
+    
+    
+};
+
+
+class Triakis{
+private:
+    //var
+    ofVec3f position;
+    float radius;
+    int mode;   //0: tetra, 1: octa, 2: Icosa
+    
+    ofMesh mesh;
+    vector<ofVec3f> points;
+    
+    //func
+    void initOrigin();
+    void makeMesh(ofVec3f point[3]);
+    void calcRaito();
+    float raito;
+    ofVec3f getNormal(ofVec3f points[3]);
+    ofColor makeColorFromPoint(ofVec3f point, int max);
+    
+    vector<ofVec3f> debugNormal;
+    vector<ofVec3f> debugOrigin;
+    
+public:
+    
+    
+    Triakis(float _radius);
+    void draw();
+    void calcMesh();
+    
+    //setter
+    void setPoisiton(ofVec3f _position);
+    void setRadius(float _radius);
+    void setMode(int _mode);
+    void setRaito(float _raito);
+    
+    void debug();
     
 };
 #endif /* defined(__Koch3D__GeometricShapes__) */

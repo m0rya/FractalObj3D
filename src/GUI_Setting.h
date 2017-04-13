@@ -108,4 +108,19 @@ public:
     void draw();
     
 };
+
+
+class GUI_Triakis : public GUIBase{
+public:
+    GUI_Triakis(Triakis &_obj);
+    ~GUI_Triakis();
+    
+    Triakis *obj;
+    float radius = 200;
+    int mode = 2;
+    
+    void setGUI();
+    void guiEvent(ofxUIEventArgs &e);
+    void draw();
+};
 #endif /* defined(__Koch3D__GUI_Setting__) */

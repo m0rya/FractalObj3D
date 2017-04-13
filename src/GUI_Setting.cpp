@@ -279,7 +279,54 @@ void GUI_truncatedTetrahedron::draw(){
 }
 
 
+//GUI_Triakise
+GUI_Triakis::GUI_Triakis(Triakis &_obj){
+    obj = &_obj;
+}
 
+GUI_Triakis::~GUI_Triakis(){
+    delete gui;
+}
+
+void GUI_Triakis::setGUI(){
+    gui = new ofxUISuperCanvas("GUI Triakis", OFX_UI_FONT_MEDIUM);
+    
+    vector<string> names;
+    for(int i=0; i<3; i++){
+        names.push_back(ofToString(i));
+    }
+    gui->addSpacer();
+    gui->addIntSlider("Radius", 30, 400, radius);
+    gui->addSpacer();
+    gui->addDropDownList("Mode", names);
+    
+    gui->setTheme(theme);
+    gui->setVisible(false);
+    gui->autoSizeToFitWidgets();
+    
+    ofAddListener(gui->newGUIEvent, this, &GUI_Triakis::guiEvent);
+}
+
+void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
+    string name = e.widget->getName();
+    
+    if(name == "Radius"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setRadius(n->getValue());
+        
+    }else if(name == "Mode"){
+        ofxUIDropDownList *n = (ofxUIDropDownList *)e.widget;
+        vector<ofxUIWidget *> &selected = n->getSelected();
+        if(selected.size() == 1){
+            obj->setMode(ofToInt(selected[0]->getName()));
+        }
+    }
+}
+
+
+void GUI_Triakis::draw(){
+    obj->draw();
+}
 
 
 

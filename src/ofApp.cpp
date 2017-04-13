@@ -15,6 +15,8 @@ HexFractal hf(5, 100);
 
 truncatedTetrahedron tt(200);
 
+Triakis trks(200);
+
 //GUI
 int theme = 9;
 int drawMode = 3;
@@ -23,8 +25,9 @@ GUI_pythagorasTree3D gui_pyTree(pyTree);
 GUI_Superposition gui_sp(sp);
 GUI_HexFractal gui_hf(hf);
 GUI_truncatedTetrahedron gui_tt(tt);
+GUI_Triakis gui_trks(trks);
 
-GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf, &gui_tt};
+GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf, &gui_tt, &gui_trks};
 
 ofxUISuperCanvas *fractalList;
 ofxUIDropDownList *ddl;
@@ -82,6 +85,7 @@ void ofApp::setup(){
     names.push_back("Superposition");
     names.push_back("HexFractal");
     names.push_back("TruncatedTetrahedron");
+    names.push_back("Triakis");
     
     fractalList->setWidgetFontSize(OFX_UI_FONT_SMALL);
     ddl = fractalList->addDropDownList("Fractal List", names);
@@ -168,6 +172,9 @@ void ofApp::guiEvent_ddl(ofxUIEventArgs &e){
             }else if(selected[0]->getName() == "TruncatedTetrahedron"){
                 guiArray[drawMode]->gui->disable();
                 drawMode = 4;
+            }else if(selected[0]->getName() == "Triakis"){
+                guiArray[drawMode]->gui->disable();
+                drawMode = 5;
             }
         }
     }
