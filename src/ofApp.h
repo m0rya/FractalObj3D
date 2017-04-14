@@ -36,6 +36,7 @@ class ofApp : public ofBaseApp{
     
     ofEasyCam cam;
     ofLight pointlight;
+    ofLight anotherLight;
     ofxExportImageSequence exp;
     
     

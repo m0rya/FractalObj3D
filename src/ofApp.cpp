@@ -17,6 +17,8 @@ truncatedTetrahedron tt(200);
 
 Triakis trks(200);
 
+Tetrakis ttrks(200);
+
 //GUI
 int theme = 9;
 int drawMode = 3;
@@ -26,8 +28,9 @@ GUI_Superposition gui_sp(sp);
 GUI_HexFractal gui_hf(hf);
 GUI_truncatedTetrahedron gui_tt(tt);
 GUI_Triakis gui_trks(trks);
+GUI_Tetrakis gui_ttrks(ttrks);
 
-GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf, &gui_tt, &gui_trks};
+GUIBase *guiArray[] = {&gui_koch, &gui_pyTree, &gui_sp, &gui_hf, &gui_tt, &gui_trks, &gui_ttrks};
 
 ofxUISuperCanvas *fractalList;
 ofxUIDropDownList *ddl;
@@ -45,6 +48,7 @@ void ofApp::setup(){
     
     //lighting
     pointlight.setSpotlight();
+    pointlight.setDirectional();
     pointlight.setAmbientColor(ofFloatColor(0.5, 0.2, 0.2, 1.0));
     pointlight.setDiffuseColor(ofFloatColor(.86, .85, .55));
     pointlight.setSpecularColor(ofFloatColor(1.f, 1.f, 1.f));
@@ -52,6 +56,14 @@ void ofApp::setup(){
     lightPos = ofVec3f(-40, 60, 600);
     pointlight.setPosition(lightPos);
     pointlight.enable();
+    
+    
+    anotherLight.setDirectional();
+    anotherLight.setAmbientColor(ofFloatColor(0.5, 0.2, 0.2, 1.0));
+    anotherLight.setDiffuseColor(ofFloatColor(.36, .35, .35));
+    anotherLight.setSpecularColor(ofFloatColor(.5f, .5f, .5f));
+    anotherLight.setPosition(-1*lightPos);
+    anotherLight.enable();
     
     
     //setting for Koch3D
@@ -86,6 +98,7 @@ void ofApp::setup(){
     names.push_back("HexFractal");
     names.push_back("TruncatedTetrahedron");
     names.push_back("Triakis");
+    names.push_back("Tetrakis");
     
     fractalList->setWidgetFontSize(OFX_UI_FONT_SMALL);
     ddl = fractalList->addDropDownList("Fractal List", names);
@@ -125,9 +138,12 @@ void ofApp::draw(){
     ofEnableDepthTest();
     ofEnableLighting();
     pointlight.enable();
+    anotherLight.enable();
     
     cam.begin();
-    //ofDrawSphere(lightPos, 10);
+    ofSetColor(ofColor(255));
+    ofDrawSphere(lightPos, 10);
+    ofDrawSphere(-1*lightPos, 10);
     
     //tree.draw();
     //test.draw();
@@ -175,6 +191,9 @@ void ofApp::guiEvent_ddl(ofxUIEventArgs &e){
             }else if(selected[0]->getName() == "Triakis"){
                 guiArray[drawMode]->gui->disable();
                 drawMode = 5;
+            }else if(selected[0]->getName() == "Tetrakis"){
+                guiArray[drawMode]->gui->disable();
+                drawMode = 6;
             }
         }
     }
@@ -216,7 +235,7 @@ void ofApp::keyReleased(int key){
         myImage.saveImage("./pic/picture.png", OF_IMAGE_QUALITY_BEST);
     }
     pointlight.setPosition(lightPos);
-    //cout << lightPos << endl;
+    cout << lightPos << endl;
     
 
 }

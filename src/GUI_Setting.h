@@ -124,4 +124,19 @@ public:
     void guiEvent(ofxUIEventArgs &e);
     void draw();
 };
+
+
+class GUI_Tetrakis : public GUIBase{
+public:
+    GUI_Tetrakis(Tetrakis &_obj);
+    ~GUI_Tetrakis();
+    
+    Tetrakis *obj;
+    float radius = 200;
+    float raito = 0.1;
+    
+    void setGUI();
+    void guiEvent(ofxUIEventArgs &e);
+    void draw();
+};
 #endif /* defined(__Koch3D__GUI_Setting__) */

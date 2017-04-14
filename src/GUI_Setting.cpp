@@ -25,11 +25,12 @@ void GUI_Koch3D::setGUI(){
     names.push_back("3");
     
     gui->addSpacer();
+    gui->addLabelButton("Output STL File", false);
+    gui->addSpacer();
     gui->addIntSlider("Num of Recursion", 0, 6, numRecursion);
     gui->addSpacer();
     gui->addDropDownList("Differ", names);
     gui->addSpacer();
-    gui->addLabelButton("Output STL File", false);
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -76,15 +77,14 @@ void GUI_pythagorasTree3D::setGUI(){
     gui = new ofxUISuperCanvas("GUI PythagorasTree3D", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
+    gui->addLabelButton("Output STL File", false);
+    gui->addSpacer();
     gui->addIntSlider("Num of Recursion", 0, 10, numRecursion);
     gui->addSpacer();
     gui->addIntSlider("Angle", 10, 180, angle);
     gui->addSpacer();
     gui->addLabelButton("Random Angle", false);
     gui->addSpacer();
-    gui->addLabelButton("Output STL File", false);
-    
-    
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -230,7 +230,7 @@ void GUI_HexFractal::draw(){
 
 
 
-//GUI_truncatedTetrahedron
+//==========GUI_truncatedTetrahedron==========
 GUI_truncatedTetrahedron::GUI_truncatedTetrahedron(truncatedTetrahedron &_obj){
     obj = &_obj;
 }
@@ -279,9 +279,10 @@ void GUI_truncatedTetrahedron::draw(){
 }
 
 
-//GUI_Triakise
+//==========GUI_Triakise===================
 GUI_Triakis::GUI_Triakis(Triakis &_obj){
     obj = &_obj;
+    raito = obj->getRaito();
 }
 
 GUI_Triakis::~GUI_Triakis(){
@@ -292,9 +293,11 @@ void GUI_Triakis::setGUI(){
     gui = new ofxUISuperCanvas("GUI Triakis", OFX_UI_FONT_MEDIUM);
     
     vector<string> names;
-    for(int i=0; i<3; i++){
-        names.push_back(ofToString(i));
-    }
+    names.push_back("Triakis Tetrahedron");
+    names.push_back("Triakis Octahedron");
+    names.push_back("Triakis Icosahedron");
+    
+    
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
@@ -320,7 +323,19 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
         ofxUIDropDownList *n = (ofxUIDropDownList *)e.widget;
         vector<ofxUIWidget *> &selected = n->getSelected();
         if(selected.size() == 1){
-            obj->setMode(ofToInt(selected[0]->getName()));
+            
+            int _mode;
+            string name = selected[0]->getName();
+            if(name == "Triakis Tetrahedron"){
+                _mode = 0;
+            }else if(name == "Triakis Octahedron"){
+                _mode = 1;
+            }else if(name == "Triakis Icosahedron"){
+                _mode = 2;
+            }
+            
+            obj->setMode(_mode);
+            raito = obj->getRaito();
         }
     }else if(name == "Raito"){
         ofxUISlider *n = (ofxUISlider *)e.widget;
@@ -334,9 +349,53 @@ void GUI_Triakis::draw(){
 }
 
 
+//========Tetrakis========
+
+GUI_Tetrakis::GUI_Tetrakis(Tetrakis &_obj){
+    obj = &_obj;
+    raito = obj->getRaito();
+    
+}
+
+GUI_Tetrakis::~GUI_Tetrakis(){
+    delete gui;
+}
 
 
+void GUI_Tetrakis::setGUI(){
+    gui = new ofxUISuperCanvas("GUI Triakis", OFX_UI_FONT_MEDIUM);
+    
+    
+    gui->addSpacer();
+    gui->addIntSlider("Radius", 30, 400, radius);
+    gui->addSpacer();
+    gui->addSlider("Raito", -2.0, 2.0, raito);
+    gui->addSpacer();
+    
+    gui->setTheme(theme);
+    gui->setVisible(false);
+    gui->autoSizeToFitWidgets();
+    
+    ofAddListener(gui->newGUIEvent, this, &GUI_Tetrakis::guiEvent);
+}
 
+void GUI_Tetrakis::guiEvent(ofxUIEventArgs &e){
+    string name = e.widget->getName();
+    
+    if(name == "Radius"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setRadius(n->getValue());
+        
+    }else if(name == "Raito"){
+        ofxUISlider *n = (ofxUISlider *)e.widget;
+        obj->setRaito(n->getValue());
+    }
+}
+
+
+void GUI_Tetrakis::draw(){
+    obj->draw();
+}
 
 
 

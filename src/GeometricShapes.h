@@ -12,7 +12,46 @@
 #include <stdio.h>
 #include <ofMain.h>
 #include <makeStl.h>
+class GeometricShapes{
+private:
+    
+    
+public:
+    
+    ofVec3f getNormal(ofVec3f points[3]);
+    ofColor getColorFromPoint(ofVec3f point, int max);
+    
+    
+};
 
+class Tetrakis : public GeometricShapes{
+private:
+    float radius;
+    void initOrigin();
+    vector<ofVec3f> originPoint;
+    ofMesh mesh;
+    ofVec3f position;
+    float raito;
+    
+    void divideMesh(ofVec3f point[4]);
+    void calcRaito();
+    
+    int numVertices;
+    
+public:
+    
+    Tetrakis(float _radius);
+    void draw();
+    void calcMesh();
+    
+    //setter getter
+    void setRadius(float _radius);
+    void setRaito(float _raito);
+    
+    float getRaito();
+    
+    
+};
 
 
 class truncatedTetrahedron{
@@ -83,7 +122,14 @@ public:
     void setMode(int _mode);
     void setRaito(float _raito);
     
+    //getter
+    float getRaito();
+    
+    
     void debug();
     
 };
+
+
+
 #endif /* defined(__Koch3D__GeometricShapes__) */
