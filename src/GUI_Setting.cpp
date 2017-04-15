@@ -17,7 +17,7 @@ GUI_Koch3D::~GUI_Koch3D(){
 }
 
 void GUI_Koch3D::setGUI(){
-    gui = new ofxUISuperCanvas("GUI Koch3D", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("Koch3D", OFX_UI_FONT_MEDIUM);
     vector<string> names;
     names.push_back("0");
     names.push_back("1");
@@ -74,7 +74,7 @@ GUI_pythagorasTree3D::~GUI_pythagorasTree3D(){
 }
 
 void GUI_pythagorasTree3D::setGUI(){
-    gui = new ofxUISuperCanvas("GUI PythagorasTree3D", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("PythagorasTree3D", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
     gui->addLabelButton("Output STL File", false);
@@ -85,6 +85,7 @@ void GUI_pythagorasTree3D::setGUI(){
     gui->addSpacer();
     gui->addLabelButton("Random Angle", false);
     gui->addSpacer();
+    gui->addToggle("Animation", anime);
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -108,10 +109,20 @@ void GUI_pythagorasTree3D::guiEvent(ofxUIEventArgs &e){
         cout << "hello " << endl;
     }else if(name == "Output STL File"){
         obj->outputStl();
+    }else if(name == "Animation"){
+        ofxUIToggle *n = (ofxUIToggle *)e.widget;
+        anime = n->getValue();
     }
 }
 
 void GUI_pythagorasTree3D::draw(){
+    if(anime){
+        obj->animation();
+        ofRotateY(ofGetFrameNum());
+        obj->draw();
+        
+        return;
+    }
     obj->draw();
 }
 
@@ -125,7 +136,7 @@ GUI_Superposition::~GUI_Superposition(){
     delete gui;
 }
 void GUI_Superposition::setGUI(){
-    gui = new ofxUISuperCanvas("GUI Superposition", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("Superposition", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
     
@@ -156,13 +167,15 @@ GUI_HexFractal::~GUI_HexFractal(){
 }
 
 void GUI_HexFractal::setGUI(){
-    gui = new ofxUISuperCanvas("GUI HexFractal", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("HexFractal", OFX_UI_FONT_MEDIUM);
     
     vector<string> names;
     for(int i=0; i<2; i++){
         names.push_back(ofToString(i));
     }
     
+    gui->addSpacer();
+    gui->addLabelButton("Output STL file", false);
     gui->addSpacer();
     gui->addIntSlider("Num of Recursion", 1, 10, numRecursion);
     gui->addSpacer();
@@ -176,7 +189,6 @@ void GUI_HexFractal::setGUI(){
     gui->addSpacer();
     gui->addIntSlider("Adding Radius", -20, 20, addingRadius);
     gui->addSpacer();
-    gui->addButton("output STL file", false);
     gui->addDropDownList("Mode", names);
     gui->addSpacer();
     
@@ -239,7 +251,7 @@ GUI_truncatedTetrahedron::~GUI_truncatedTetrahedron(){
     delete gui;
 }
 void GUI_truncatedTetrahedron::setGUI(){
-    gui = new ofxUISuperCanvas("GUI truncatedTetrahedron", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("truncatedTetrahedron", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
@@ -247,6 +259,9 @@ void GUI_truncatedTetrahedron::setGUI(){
     gui->addIntSlider("Fineness", 1, 20, fineness);
     gui->addSpacer();
     gui->addIntSlider("Itr", 0, 20, itr);
+    gui->addSpacer();
+    gui->addLabelButton("Reset", false);
+    gui->addSpacer();
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -268,6 +283,8 @@ void GUI_truncatedTetrahedron::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Itr"){
         ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
         obj->setItr(n->getValue());
+    }else if(name == "Reset"){
+        obj->reset();
     }
     
     
@@ -290,7 +307,7 @@ GUI_Triakis::~GUI_Triakis(){
 }
 
 void GUI_Triakis::setGUI(){
-    gui = new ofxUISuperCanvas("GUI Triakis", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("Triakis", OFX_UI_FONT_MEDIUM);
     
     vector<string> names;
     names.push_back("Triakis Tetrahedron");
@@ -302,6 +319,8 @@ void GUI_Triakis::setGUI(){
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
     gui->addSlider("Raito", -2.0, 2.0, raito);
+    gui->addSpacer();
+    gui->addLabelButton("Reset Raito", false);
     gui->addSpacer();
     gui->addDropDownList("Mode", names);
     
@@ -340,6 +359,9 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Raito"){
         ofxUISlider *n = (ofxUISlider *)e.widget;
         obj->setRaito(n->getValue());
+    }else if(name == "Reset Raito"){
+        obj->calcRaito();
+        obj->calcMesh();
     }
 }
 
@@ -363,13 +385,15 @@ GUI_Tetrakis::~GUI_Tetrakis(){
 
 
 void GUI_Tetrakis::setGUI(){
-    gui = new ofxUISuperCanvas("GUI Triakis", OFX_UI_FONT_MEDIUM);
+    gui = new ofxUISuperCanvas("Tetrakis", OFX_UI_FONT_MEDIUM);
     
     
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
     gui->addSlider("Raito", -2.0, 2.0, raito);
+    gui->addSpacer();
+    gui->addLabelButton("Reset Raito", false);
     gui->addSpacer();
     
     gui->setTheme(theme);
@@ -389,6 +413,9 @@ void GUI_Tetrakis::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Raito"){
         ofxUISlider *n = (ofxUISlider *)e.widget;
         obj->setRaito(n->getValue());
+    }else if(name == "Reset Raito"){
+        obj->calcRaito();
+        obj->calcMesh();
     }
 }
 

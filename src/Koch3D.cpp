@@ -13,7 +13,6 @@
  
  add various options
  
- 
  */
 
 
@@ -100,39 +99,16 @@ void Koch3D::initOriginAsTetra(){
     
     //start Recursion
     ofVec3f arg[3];
-    arg[0] = point[0];
-    arg[1] = point[1];
-    arg[2] = point[2];
-    
-    recursion(arg, getAxis(arg, point[3]), num_recursion);
-    
-    arg[1] = point[3];
-    arg[2] = point[1];
-    recursion(arg, getAxis(arg, point[2]), num_recursion);
-    
-    arg[1] = point[2];
-    arg[2] = point[3];
-    recursion(arg, getAxis(arg, point[1]), num_recursion);
-    
-    arg[0] = point[1];
-    arg[1] = point[3];
-    arg[2] = point[2];
-    recursion(arg,getAxis(arg, point[0]), num_recursion);
-    
-    /*
-    //setColor
+    int index[4][3] = {{0, 1, 2}, {0, 3, 1}, {0, 2, 3}, {1, 3, 2}};
     for(int i=0; i<4; i++){
-        mesh.addColor(ofColor::fromHsb(ofMap(num_recursion, 0, num_recursion, 0, 255), 255, 255));
+        for(int j=0; j<3; j++) arg[j] = point[index[i][j]];
+        recursion(arg, getAxis(arg, point[3-i]), num_recursion);
     }
-     */
 }
 
 
 void Koch3D::initOriginAsOcta(){
     mesh.clear();
-    if(outputStl){
-        stl->clear();
-    }
     
     ofVec3f point[6];
     ofVec3f axis = ofVec3f(0, 0, 0);
@@ -193,18 +169,12 @@ void Koch3D::recursion(ofVec3f point[3], ofVec3f axis, int n){
             mesh.addNormal(nor);
             mesh.addColor(makeColorFromPoint(point[i]));
         }
-        mesh.addTriangle(numVertices, numVertices+1, numVertices+2);
+        //mesh.addTriangle(numVertices, numVertices+1, numVertices+2);
+        mesh.addIndex(numVertices);
+        mesh.addIndex(numVertices + 1);
+        mesh.addIndex(numVertices + 2);
        
-        //wrting STL File
-        if(outputStl){
-            //newPoint[3] = topPoint;
-            
-            ofVec3f normal = getNormal(point);
-            
-            stl->addMesh(point, normal);
-        }
         return;
-        
     }
     
     ofVec3f newPoint[4];
@@ -220,9 +190,7 @@ void Koch3D::recursion(ofVec3f point[3], ofVec3f axis, int n){
     //randomize for new top point
     if(noise_for_topPoint){
         
-        
         topPoint = alterTopPoint(topPoint, n);
-        
     }
     topPoint += (newPoint[0] + newPoint[1] + newPoint[2])/3;
     
@@ -244,36 +212,6 @@ void Koch3D::recursion(ofVec3f point[3], ofVec3f axis, int n){
         
         recursion(tmp, axis, n-1);
     }
-    /*
-    tmp[0] = topPoint;
-    tmp[1] = newPoint[0];
-    tmp[2] = newPoint[1];
-    recursion(tmp, getAxis(tmp, newPoint[2]), n-1);
-    
-    tmp[2] = newPoint[2];
-    recursion(tmp, getAxis(tmp, newPoint[1]), n-1);
-    
-    tmp[1] = newPoint[1];
-    recursion(tmp, getAxis(tmp, newPoint[0]), n-1);
-     */
-    
-    //extra recurion
-    
-    /*
-    tmp[0] = point[0];
-    tmp[1] = newPoint[0];
-    tmp[2] = newPoint[2];
-    recursion(tmp, axis, n-1);
-    
-    tmp[0] = point[1];
-    tmp[2] = newPoint[1];
-    recursion(tmp, axis, n-1);
-    
-    tmp[0] = newPoint[2];
-    tmp[1] = point[2];
-    recursion(tmp, axis, n-1);
-    
-     */
     
 }
 
@@ -290,13 +228,7 @@ ofVec3f Koch3D::getAxis(ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f axis){
 }
 
 void Koch3D::outputStlFile(){
-    outputStl = true;
-    stl->clear();
-    initRecursion();
-    outputStl = false;
-    
-    stl->outputFile();
-    cout << "out put \"" + stl->getFileName() <<  "\" from Koch3D" << endl;
+    stl->outputStl(mesh, "Koch3D");
 }
 
 

@@ -54,6 +54,7 @@ public:
     float numRecursion = 3;
     float angle = 60;
     int theme = 9;
+    bool anime = false;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

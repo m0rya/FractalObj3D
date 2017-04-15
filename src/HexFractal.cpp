@@ -26,16 +26,12 @@ HexFractal::HexFractal(int _numRecursion, float _radius){
     
 }
 
-
-
-
 void HexFractal::draw(){
     ofTranslate(0, -100, 0);
     mesh.draw();
     
     ofTranslate(0, 0, 0);
 }
-
 
 void HexFractal::clear(){
     mesh.clear();
@@ -103,65 +99,40 @@ void HexFractal::recursion(vector<ofVec3f> point, int n){
     ofVec3f argForNormal[3];
     for(int i=0; i<fineness; i++){
         if(mode == 0){
-            mesh.addTriangle(numVertices+fineness+i, numVertices+(i+1)%fineness, numVertices+(i+2)%fineness);
             
-            mesh.addTriangle(numVertices+(i+2)%fineness, numVertices+i+fineness, numVertices+fineness+(i+1)%fineness);
+            mesh.addIndex(numVertices + fineness +i);
+            mesh.addIndex(numVertices + (i+2)%fineness);
+            mesh.addIndex(numVertices + (i+1)%fineness);
+            
+            mesh.addIndex(numVertices + (i+2)%fineness);
+            mesh.addIndex(numVertices + i + fineness);
+            mesh.addIndex(numVertices + fineness + (i+1)%fineness);
             
         }else if(mode == 1){
-            mesh.addTriangle(numVertices+fineness+i, numVertices+i, numVertices+(i+1)%fineness);
+            mesh.addIndex(numVertices + fineness + i);
+            mesh.addIndex(numVertices + i);
+            mesh.addIndex(numVertices + (i+1)%fineness);
+            
             if(i != (fineness-1)){
-                mesh.addTriangle(numVertices+(i+1)%fineness, numVertices+fineness+i, numVertices+(fineness+i+1)%(2*fineness));
+                mesh.addIndex(numVertices + (i+1)%fineness);
+                mesh.addIndex(numVertices + fineness + i);
+                mesh.addIndex(numVertices + (fineness + i + 1)%(2*fineness));
+                
             }else{
-                mesh.addTriangle(numVertices+(i+1)%fineness, numVertices+fineness+i, numVertices+fineness);
+                mesh.addIndex(numVertices + (i+1)%fineness);
+                mesh.addIndex(numVertices + fineness + i);
+                mesh.addIndex(numVertices + fineness);
             }
         }
     }
     
-    
-    //making Stl file
-    if(outputStl){
-        ofVec3f pointForStl[3];
-        ofVec3f normal;
-        for(int i=0; i<fineness; i++){
-            if(mode == 0){
-                pointForStl[0] = newPoint[i];
-                pointForStl[2] = point[(i+1)%fineness];
-                pointForStl[1] = point[(i+2)%fineness];
-                normal = getNormal(pointForStl);
-                
-                stl->addMesh(pointForStl, normal);
-                
-                pointForStl[0] = point[(i+2)%fineness];
-                pointForStl[2] = newPoint[(i+1)%fineness];
-                pointForStl[1] = newPoint[i];
-                normal = getNormal(pointForStl);
-                
-                stl->addMesh(pointForStl, normal);
-                
-            }else if(mode == 1){
-                pointForStl[0] = newPoint[i];
-                pointForStl[2] = point[i];
-                pointForStl[1] = point[(i+1)%fineness];
-                normal = getNormal(pointForStl);
-                
-                stl->addMesh(pointForStl, normal);
-                
-                pointForStl[0] = point[(i+1)%fineness];
-                pointForStl[2] = newPoint[(i+1)%fineness];
-                pointForStl[1] = newPoint[i];
-                normal = getNormal(pointForStl);
-                
-                stl->addMesh(pointForStl, normal);
-                
-            }
-        }
-    }
     recursion(newPoint, n-1);
 }
 
 
 
 void HexFractal::closeMesh(vector<ofVec3f> point, int upOrDown) {
+    //upOrDown: up : 1, down : 0
     
     ofVec3f cnt = ofVec3f(0, point[0].y, 0);
     
@@ -173,42 +144,28 @@ void HexFractal::closeMesh(vector<ofVec3f> point, int upOrDown) {
         mesh.addNormal((point[i]-cnt).normalize());
         
     }
-    
-    for(int i=0; i<fineness-2; i++){
-        //mesh.addTriangle(numVertices+fineness, numVertices+i, numVertices+(i+1)%fineness);
-        mesh.addTriangle(numVertices, numVertices+i+1, numVertices+i+2);
-    }
-    
-    //writing STL file
-    if(outputStl){
-        ofVec3f pointForStl[3];
-        ofVec3f normal;
+    if(upOrDown == 0){
         for(int i=0; i<fineness-2; i++){
-            if(upOrDown == 0){
-                pointForStl[0] = point[0];
-                pointForStl[1] = point[i+1];
-                pointForStl[2] = point[i+2];
-                
-            }else if(upOrDown == 1){
-                pointForStl[0] = point[0];
-                pointForStl[1] = point[i+2];
-                pointForStl[2] = point[i+1];
-            }
-            normal = getNormal(pointForStl);
-            
-            stl->addMesh(pointForStl, normal);
+            //mesh.addTriangle(numVertices+fineness, numVertices+i, numVertices+(i+1)%fineness);
+            //mesh.addTriangle(numVertices, numVertices+i+1, numVertices+i+2);
+            mesh.addIndex(numVertices);
+            mesh.addIndex(numVertices + i + 1);
+            mesh.addIndex(numVertices + i + 2);
         }
-
+    }else if(upOrDown == 1){
+        for(int i=0; i<fineness-2; i++){
+            mesh.addIndex(numVertices);
+            mesh.addIndex(numVertices + fineness-1-i);
+            mesh.addIndex(numVertices + fineness-2-i);
+            
+        }
     }
+    
 }
 
 void HexFractal::outputStlFile(){
-    outputStl = true;
-    stl->clear();
-    initRecursion();
-    outputStl = false;
     
-    stl->outputFile();
+    stl->outputStl(mesh, "HexFractal");
     cout << "output \"" + stl->getFileName() << "\" from HexFractal" << endl;
 }
 

@@ -149,3 +149,27 @@ ofVec3f makeStl::getNormal(ofVec3f point[3]){
     return normal;
 }
 
+
+
+void makeStl::outputStl(ofMesh mesh, string name){
+    clear();
+    vector<ofVec3f> vertices = mesh.getVertices();
+    vector<ofIndexType> indices = mesh.getIndices();
+    
+    ofVec3f argForStl[3];
+    ofVec3f normal;
+    
+    for(int i=0; i<indices.size(); i+=3){
+        argForStl[0] = vertices[indices[i]];
+        argForStl[1] = vertices[indices[i+1]];
+        argForStl[2] = vertices[indices[i+2]];
+        normal = getNormal(argForStl);
+        
+        addMesh(argForStl, normal);
+    }
+    
+    outputFile();
+    
+    cout << "output \"" + getFileName() << "\" from " << name << endl;
+}
+

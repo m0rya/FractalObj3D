@@ -32,6 +32,7 @@ public:
     string getFileName();
     void clear();
     
+    void outputStl(ofMesh mesh, string name);
 };
 
 

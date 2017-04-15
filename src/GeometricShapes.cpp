@@ -67,13 +67,22 @@ void truncatedTetrahedron::calcMesh(){
     
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
-            mesh.addTriangle(numVertices + i*6, numVertices + i*6+1+j, numVertices + i*6+2+j);
+            //mesh.addTriangle(numVertices + i*6, numVertices + i*6+1+j, numVertices + i*6+2+j);
+            mesh.addIndex(numVertices + i*6);
+            mesh.addIndex(numVertices + i*6+1+j);
+            mesh.addIndex(numVertices + i*6+2+j);
         }
     }
+    int index[4][3] = {{0, 5, 11}, {3, 4, 8}, {9, 10, 14}, {1, 2, 15}};
+    for(int i=0; i<4; i++){
+        for(int j=0; j<3; j++) mesh.addIndex(index[i][j]);
+    }
+    /*
     mesh.addTriangle(numVertices + 0, numVertices + 5, numVertices + 11);
     mesh.addTriangle(numVertices + 3, numVertices + 4, numVertices + 8);
     mesh.addTriangle(numVertices + 9, numVertices + 10, numVertices + 14);
     mesh.addTriangle(numVertices + 1, numVertices + 2, numVertices + 15);
+     */
     
     
 }
@@ -120,5 +129,11 @@ void truncatedTetrahedron::setFineness(int _fineness){
 
 void truncatedTetrahedron::setItr(int _itr){
     itr = _itr;
+    calcMesh();
+}
+
+void truncatedTetrahedron::reset(){
+    fineness = 1;
+    itr = 0;
     calcMesh();
 }

@@ -31,7 +31,13 @@ private:
     ofColor makeColorFromPoint(ofVec3f point);
     
     ofVec3f getNormal(ofVec3f point[3]);
-
+    
+    
+    //Animation
+    int modeForAnime = 0;
+    int counterForStop = 0;
+    int recursionTrans = 1;
+    
     
 public:
     
@@ -42,6 +48,9 @@ public:
     void draw();
     void outputStl();
     void initRecursion();
+    
+    
+    void debugNormal();
 
     
     //setter
@@ -53,7 +62,7 @@ public:
     void setAngle(int _angle);
     void setRandomAngle();
 
-    
+    void animation();
     
 };
 

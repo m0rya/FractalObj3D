@@ -34,6 +34,8 @@ pythagorasTree3D::pythagorasTree3D(int _width,int _recursionNum, makeStl* _stl){
     
 }
 
+
+
 pythagorasTree3D::pythagorasTree3D(ofVec3f _position, int _width, int _recursionNum, makeStl* _stl){
     stl = _stl;
     recursionNum = _recursionNum;
@@ -46,21 +48,113 @@ pythagorasTree3D::pythagorasTree3D(ofVec3f _position, int _width, int _recursion
     position[3] = ofVec3f(_position.x-_width, _position.y, _position.z+_width);
 }
 
+
+void pythagorasTree3D::animation(){
+    
+    
+    if(angle % 360 == 180 || angle % 360 == 60){
+        if(counterForStop < 48){
+            counterForStop ++;
+            return;
+        }else{
+            counterForStop  = 0;
+            
+        }
+    }
+    
+    if(angle % 360 == 0){
+        recursionNum += recursionTrans;
+        setNumRecursion(recursionNum);
+    }
+    if(recursionNum == 0){
+        recursionTrans  = 1;
+    }else if(recursionNum == 9){
+        recursionTrans = -1;
+    }
+    
+   angle += 10;
+    setAngle(angle);
+    /*
+    int frameNums = ofGetFrameNum();
+    
+       //angle 10 to 60, recursion 0 to 10
+       if(modeForAnime == 0){
+           if(angle == 60 || recursionNum == 10){
+               modeForAnime = 1;
+               counterForStop = 0;
+               return;
+            }
+        
+           if(frameNums % 6 == 0){
+                angle += 1;
+                setAngle(angle);
+        
+                if(angle % 5 == 0){
+                    recursionNum += 1;
+                    setNumRecursion(recursionNum);
+                }
+           }
+        
+        
+       }else if(modeForAnime == 1){
+           if(angle > 180){
+               counterForStop += 1;
+               if(counterForStop > 999){
+                    modeForAnime = 2;
+                    return;
+               }
+           }
+           
+            angle += 2;
+            setAngle(angle);
+        
+       }else if(modeForAnime == 2){
+        
+           if(angle <= 60){
+               modeForAnime = 3;
+               return;
+            }
+           
+           angle -= 2;
+           setAngle(angle);
+        
+       }else if(modeForAnime == 3){
+           if(angle == 10 || recursionNum == 0){
+               modeForAnime = 0;
+               return;
+           }
+           
+           if(frameNums% 4 == 0){
+               angle -= 1;
+               setAngle(angle);
+               
+               if(angle % 5 == 0){
+                   recursionNum -= 1;
+                   setNumRecursion(recursionNum);
+               }
+           }
+           
+       }
+     */
+    
+    
+}
 void pythagorasTree3D::initRecursion(){
     stl->clear();
     mesh.clear();
     
+    //adding Vertex and Normal
     for(int i=0; i<4; i++){
         mesh.addVertex(position[i]);
         mesh.addNormal(ofVec3f(0, -1, 0));
     }
-    mesh.addTriangle(0, 1, 3);
-    mesh.addTriangle(1, 3, 2);
     
-    int index[][3] = {
-        {0, 1, 2}, {0, 2, 3}
-    };
-    stl->addMeshes(position, index, 2);
+    //adding Index
+    int ind[2][3] = {{0, 1, 2}, {0, 2, 3}};
+    for(int i=0; i<2; i++){
+        for(int j=0; j<3; j++) mesh.addIndex(ind[i][j]);
+    }
+    
     recursion(position, recursionNum);
 }
 
@@ -73,15 +167,10 @@ void pythagorasTree3D::draw(){
 
 //output as stl file
 void pythagorasTree3D::outputStl(){
-    writeStl = true;
-    stl->clear();
-    initRecursion();
-    writeStl = false;
     
-    stl->outputFile();
-    
-    cout << "out put \"" + stl->getFileName() << "\" from pythagorasTree" << endl;
+    stl->outputStl(mesh, "pythagoras Tree");
 }
+
 
 
 //setter
@@ -159,15 +248,13 @@ void pythagorasTree3D::addCube(ofVec3f point[4], ofVec3f upPoint[4], int n){
     }
   
  
-    mesh.addTriangle(numVertices, numVertices+4, numVertices+1);
-    mesh.addTriangle(numVertices+4, numVertices+1, numVertices+5);
-    mesh.addTriangle(numVertices+5, numVertices+1, numVertices+2);
-    mesh.addTriangle(numVertices+5, numVertices+2, numVertices+6);
-    mesh.addTriangle(numVertices+6, numVertices+2, numVertices+3);
-    mesh.addTriangle(numVertices+6, numVertices+3, numVertices+7);
-    mesh.addTriangle(numVertices+3, numVertices+4, numVertices+7);
-    mesh.addTriangle(numVertices, numVertices+3, numVertices+4);
+    int ind[8][3] = {{0, 4, 1}, {1, 4, 5}, {5, 2, 1}, {5, 6, 2}, {6, 3, 2}, {6, 7, 3}, {3, 7, 4}, {0, 3, 4}};
     
+    for(int i=0; i<8; i++){
+        for(int j=0; j<3; j++){
+            mesh.addIndex(numVertices + ind[i][j]);
+        }
+    }
     
     
     //writing STL File
@@ -204,17 +291,12 @@ void pythagorasTree3D::addTriPrism(ofVec3f point[6], int n){
         //mesh.addColor(ofColor::fromHsb(ofMap(point[i].y, 0, 600, 30, 180), 170, 170));
     }
     
-    
-    mesh.addTriangle(numVertices, numVertices+1, numVertices+2);
-    mesh.addTriangle(numVertices+3, numVertices+4, numVertices+5);
-    if(n == 0){
-        mesh.addTriangle(numVertices+1, numVertices+2, numVertices+4);
-        mesh.addTriangle(numVertices+2, numVertices+5, numVertices+4);
-        
-        mesh.addTriangle(numVertices, numVertices+3, numVertices+2);
-        mesh.addTriangle(numVertices+2, numVertices+3, numVertices+5);
-
+    int ind[6][3] = {{0, 2, 1}, {3, 4, 5}, {1, 2, 4}, {2, 5, 4}, {0, 3, 2}, {2, 3, 5}};
+    for(int i=0; i<6; i++){
+        if(n != 0 && i == 2) break;
+        for(int j=0; j<3; j++) mesh.addIndex(numVertices + ind[i][j]);
     }
+    
     
     if(writeStl){
         int index[][3] = {
@@ -318,7 +400,7 @@ void pythagorasTree3D::recursion(ofVec3f point[4], int n){
 
 
 ofColor pythagorasTree3D::makeColorFromPoint(ofVec3f point){
-    int tmp = 500;
+    int tmp = 300;
     ofColor result = ofColor(ofMap(point.x, -tmp, tmp, 0, 255), ofMap(point.y, -tmp, tmp, 0, 255), ofMap(point.z, -tmp, tmp, 0, 255), 250);
     return result;
 }

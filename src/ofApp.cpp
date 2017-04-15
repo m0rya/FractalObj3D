@@ -45,6 +45,7 @@ void ofApp::setup(){
     ofBackground(0);
     ofEnableDepthTest();
     ofEnableSmoothing();
+    ofSetFrameRate(24);
     
     //lighting
     pointlight.setSpotlight();
@@ -114,13 +115,13 @@ void ofApp::setup(){
         guiArray[i]->setGUI();
     }
     
-   //exp
     /*
+   //exp
     exp.setup(ofGetWidth(), ofGetHeight(), 24);
     exp.setOutputDir("out");
     exp.setOverwriteSequence(true);
     exp.setAutoExit(true);
-    exp.startExport();
+    //exp.startExport();
      */
 }
 
@@ -138,12 +139,12 @@ void ofApp::draw(){
     ofEnableDepthTest();
     ofEnableLighting();
     pointlight.enable();
-    anotherLight.enable();
+    //anotherLight.enable();
     
     cam.begin();
     ofSetColor(ofColor(255));
-    ofDrawSphere(lightPos, 10);
-    ofDrawSphere(-1*lightPos, 10);
+    //ofDrawSphere(lightPos, 10);
+    //ofDrawSphere(-1*lightPos, 10);
     
     //tree.draw();
     //test.draw();
@@ -155,8 +156,10 @@ void ofApp::draw(){
     
     cam.end();
     
-    //exp.end();
-    //exp.draw(0, 0);
+    /*
+    exp.end();
+    exp.draw(0, 0);
+     */
 
 }
 
@@ -233,6 +236,8 @@ void ofApp::keyReleased(int key){
     }else if(key == 't'){
         myImage.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
         myImage.saveImage("./pic/picture.png", OF_IMAGE_QUALITY_BEST);
+    }else if(key == '1'){
+        exp.startExport();
     }
     pointlight.setPosition(lightPos);
     cout << lightPos << endl;

@@ -9,6 +9,13 @@
 #include <stdio.h>
 #include "GeometricShapes.h"
 
+
+/*  todo
+ 
+ resetRaito
+ */
+
+
 ofVec3f GeometricShapes::getNormal(ofVec3f points[3]){
     ofVec3f tmp[2];
     ofVec3f normal;
@@ -34,7 +41,6 @@ Tetrakis::Tetrakis(float _radius){
     calcRaito();
     calcMesh();
     
-    
 }
 
 void Tetrakis::draw(){
@@ -49,11 +55,11 @@ void Tetrakis::draw(){
 void Tetrakis::initOrigin(){
     //make Box
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y, position.z + radius*sin(-i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y - sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
     }
     
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y + sqrt(2)*radius, position.z + radius*sin(-i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y + sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
     }
     
     

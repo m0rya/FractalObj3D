@@ -34,7 +34,6 @@ private:
     float raito;
     
     void divideMesh(ofVec3f point[4]);
-    void calcRaito();
     
     int numVertices;
     
@@ -49,7 +48,7 @@ public:
     void setRaito(float _raito);
     
     float getRaito();
-    
+    void calcRaito();
     
 };
 
@@ -67,10 +66,9 @@ private:
 public:
     truncatedTetrahedron(int _radius);
     
-    
     void calcMesh();
     void draw();
-    
+    void reset();
     
     
     //setter
@@ -98,7 +96,6 @@ private:
     //func
     void initOrigin();
     void makeMesh(ofVec3f point[3]);
-    void calcRaito();
     float raito;
     ofVec3f getNormal(ofVec3f points[3]);
     ofColor makeColorFromPoint(ofVec3f point, int max);
@@ -116,6 +113,7 @@ public:
     void draw();
     void calcMesh();
     
+    void calcRaito();
     //setter
     void setPoisiton(ofVec3f _position);
     void setRadius(float _radius);
