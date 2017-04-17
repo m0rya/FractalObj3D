@@ -18,18 +18,18 @@ truncatedTetrahedron::truncatedTetrahedron(int _radius){
     
     fineness = 1;
     itr = 0;
+    name = "truncated Tetrahedron";
 }
 
 void truncatedTetrahedron::calcMesh(){
     mesh.clear();
-    name = "truncated Tetrahedron";
     ofVec3f pointTetrahedron[4];
     ofVec3f pointTT[4][6];
     
     //calc point of tetrahedron
     pointTetrahedron[0] = ofVec3f(position.x, position.y + sqrt(2)*radius , position.z);
     for(int i=1; i<4; i++){
-        pointTetrahedron[i] = ofVec3f(position.x+radius*cos((i-1)*120*PI/180), position.y, position.z+radius*sin((i-1)*120*PI/180));
+        pointTetrahedron[i] = ofVec3f(position.x+radius*cos(-1*(i-1)*120*PI/180), position.y, position.z+radius*sin(-1*(i-1)*120*PI/180));
     }
     
     //calc point of truncatedTetrahedron
@@ -59,7 +59,7 @@ void truncatedTetrahedron::calcMesh(){
         for(int j=0; j<6; j++){
             mesh.addVertex(pointTT[i][j]);
             mesh.addNormal(normal);
-            mesh.addColor(makeColorFromPoint(pointTT[i][j], radius));
+            mesh.addColor(getColorFromPoint(pointTT[i][j], radius));
             
         }
     }
@@ -67,22 +67,15 @@ void truncatedTetrahedron::calcMesh(){
     
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
-            //mesh.addTriangle(numVertices + i*6, numVertices + i*6+1+j, numVertices + i*6+2+j);
             mesh.addIndex(numVertices + i*6);
             mesh.addIndex(numVertices + i*6+1+j);
             mesh.addIndex(numVertices + i*6+2+j);
         }
     }
-    int index[4][3] = {{0, 5, 11}, {3, 4, 8}, {9, 10, 14}, {1, 2, 15}};
+    int index[4][3] = {{0, 5, 11}, {3, 8, 4}, {9, 14, 10}, {2, 1, 15}};
     for(int i=0; i<4; i++){
         for(int j=0; j<3; j++) mesh.addIndex(index[i][j]);
     }
-    /*
-    mesh.addTriangle(numVertices + 0, numVertices + 5, numVertices + 11);
-    mesh.addTriangle(numVertices + 3, numVertices + 4, numVertices + 8);
-    mesh.addTriangle(numVertices + 9, numVertices + 10, numVertices + 14);
-    mesh.addTriangle(numVertices + 1, numVertices + 2, numVertices + 15);
-     */
     
     
 }
@@ -92,7 +85,8 @@ void truncatedTetrahedron::draw(){
     mesh.draw();
     
 }
-                          
+
+/*
 ofColor truncatedTetrahedron::makeColorFromPoint(ofVec3f point, int max){
     
     ofColor result = ofColor(ofMap(point.x, -max, max, 0, 255), ofMap(point.y, -max, max*2, 0, 255), ofMap(point.z, -max, max, 0, 255, 250));
@@ -111,6 +105,7 @@ ofVec3f truncatedTetrahedron::getNormal(ofVec3f points[3]){
     
     return normal;
 }
+ */
 
 
 

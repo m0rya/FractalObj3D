@@ -62,8 +62,8 @@ private:
     //ofMesh mesh;
     int radius;
     ofVec3f position;
-    ofVec3f getNormal(ofVec3f points[3]);
-    ofColor makeColorFromPoint(ofVec3f point, int max);
+    //ofVec3f getNormal(ofVec3f points[3]);
+    //ofColor makeColorFromPoint(ofVec3f point, int max);
     
     int fineness;
     int itr;

@@ -254,7 +254,7 @@ void GUI_truncatedTetrahedron::setGUI(){
     gui = new ofxUISuperCanvas("truncatedTetrahedron", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
-    gui->addLabelButton("Ouput STL", false);
+    gui->addLabelButton("Output STL", false);
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();

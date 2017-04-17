@@ -61,11 +61,11 @@ void Tetrakis::draw(){
 void Tetrakis::initOrigin(){
     //make Box
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(i*90*PI/180), position.y - sqrt(2)*radius/2, position.z + radius*sin(i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y - sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
     }
     
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(i*90*PI/180), position.y + sqrt(2)*radius/2, position.z + radius*sin(i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y + sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
     }
     
     
@@ -252,11 +252,7 @@ void Triakis::calcMesh(){
             argMakeMesh[2] = points[ind[i][2]];
             makeMesh(argMakeMesh);
         }
-        
-        
     }
-    
-    
 }
 
 
@@ -266,7 +262,6 @@ void Triakis::makeMesh(ofVec3f point[3]){
     
     ofVec3f newPoint[4];
     for(int i=0; i<3; i++) newPoint[i] = point[i];
-    normal *= -1;
     newPoint[3] = (center + normal.scale(raito*point[0].distance(point[1])));
     
     int numVertices = mesh.getNumVertices();
@@ -344,7 +339,7 @@ void Triakis::initOrigin(){
         point[0] = ofVec3f(position.x, position.y + sqrt(2)*radius, position.z);
         
         for(int i=1; i<4; i++){
-            point[i] = ofVec3f(position.x+radius*cos((i-1)*120*PI/180), position.y, position.z+radius*sin((i-1)*120*PI/180));
+            point[i] = ofVec3f(position.x+radius*cos(-1*(i-1)*120*PI/180), position.y, position.z+radius*sin(-1*(i-1)*120*PI/180));
         }
         
         for(int i=0; i<4; i++) points.push_back(point[i]);
@@ -359,7 +354,7 @@ void Triakis::initOrigin(){
         point[1] = ofVec3f(position.x, position.y - radius, position.z);
         
         for(int i=2; i<6; i++){
-            point[i] = ofVec3f(position.x + radius*cos((i-2)*90*PI/180), position.y, position.z + radius*sin((i-2)*90*PI/180));
+            point[i] = ofVec3f(position.x + radius*cos(-1*(i-2)*90*PI/180), position.y, position.z + radius*sin(-1*(i-2)*90*PI/180));
         }
         
         for(int i=0; i<6; i++) points.push_back(point[i]);
@@ -374,10 +369,10 @@ void Triakis::initOrigin(){
         point[1] = ofVec3f(position.x, position.y - radius, position.z);
         
         for(int i=2; i<7; i++){
-            point[i] = ofVec3f(position.x + radius*cos((i-2)*72*PI/180), position.y + radius/2, position.z + radius*sin((i-2)*72*PI/180));
+            point[i] = ofVec3f(position.x + radius*cos(-1*(i-2)*72*PI/180), position.y + radius/2, position.z + radius*sin(-1*(i-2)*72*PI/180));
         }
         for(int i=7; i<12; i++){
-            point[i] = ofVec3f(position.x + radius*cos(((i-7)*72+180)*PI/180), position.y - radius/2, position.z + radius*sin(((i-7)*72+180)*PI/180));
+            point[i] = ofVec3f(position.x + radius*cos(-1*((i-7)*72+180)*PI/180), position.y - radius/2, position.z + radius*sin(-1*((i-7)*72+180)*PI/180));
         }
         
         for(int i=0; i<12; i++) points.push_back(point[i]);
