@@ -32,7 +32,13 @@ ofColor GeometricShapes::getColorFromPoint(ofVec3f point, int max){
     ofColor result = ofColor(ofMap(point.x, -max, max, 0, 255), ofMap(point.y, -max, max*2, 0, 255), ofMap(point.z, -max, max, 0, 255, 250));
     return result; 
 }
-
+void GeometricShapes::setStl(makeStl *_stl){
+    stl = _stl;
+    
+}
+void GeometricShapes::outputStl(){
+    stl->outputStl(mesh, name);
+}
 //========Tetrakis========
 Tetrakis::Tetrakis(float _radius){
     radius = _radius;
@@ -55,11 +61,11 @@ void Tetrakis::draw(){
 void Tetrakis::initOrigin(){
     //make Box
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y - sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(i*90*PI/180), position.y - sqrt(2)*radius/2, position.z + radius*sin(i*90*PI/180)));
     }
     
     for(int i=0; i<4; i++){
-        originPoint.push_back(ofVec3f(position.x + radius*cos(-i*90*PI/180), position.y + sqrt(2)*radius/2, position.z + radius*sin(-i*90*PI/180)));
+        originPoint.push_back(ofVec3f(position.x + radius*cos(i*90*PI/180), position.y + sqrt(2)*radius/2, position.z + radius*sin(i*90*PI/180)));
     }
     
     

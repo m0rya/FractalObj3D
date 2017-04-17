@@ -15,11 +15,14 @@
 class GeometricShapes{
 private:
     
-    
 public:
-    
+    ofMesh mesh;
+    makeStl *stl;
+    string name;
+    void setStl(makeStl *_stl);
     ofVec3f getNormal(ofVec3f points[3]);
     ofColor getColorFromPoint(ofVec3f point, int max);
+    void outputStl();
     
     
 };
@@ -29,7 +32,8 @@ private:
     float radius;
     void initOrigin();
     vector<ofVec3f> originPoint;
-    ofMesh mesh;
+    //ofMesh mesh;
+    
     ofVec3f position;
     float raito;
     
@@ -53,9 +57,9 @@ public:
 };
 
 
-class truncatedTetrahedron{
+class truncatedTetrahedron : public GeometricShapes{
 private:
-    ofMesh mesh;
+    //ofMesh mesh;
     int radius;
     ofVec3f position;
     ofVec3f getNormal(ofVec3f points[3]);
@@ -83,14 +87,14 @@ public:
 };
 
 
-class Triakis{
+class Triakis : public GeometricShapes{
 private:
     //var
     ofVec3f position;
     float radius;
     int mode;   //0: tetra, 1: octa, 2: Icosa
     
-    ofMesh mesh;
+    //ofMesh mesh;
     vector<ofVec3f> points;
     
     //func

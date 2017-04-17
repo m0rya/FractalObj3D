@@ -254,6 +254,8 @@ void GUI_truncatedTetrahedron::setGUI(){
     gui = new ofxUISuperCanvas("truncatedTetrahedron", OFX_UI_FONT_MEDIUM);
     
     gui->addSpacer();
+    gui->addLabelButton("Ouput STL", false);
+    gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
     gui->addIntSlider("Fineness", 1, 20, fineness);
@@ -285,6 +287,8 @@ void GUI_truncatedTetrahedron::guiEvent(ofxUIEventArgs &e){
         obj->setItr(n->getValue());
     }else if(name == "Reset"){
         obj->reset();
+    }else if(name == "Output STL"){
+        obj->outputStl();
     }
     
     
@@ -315,6 +319,8 @@ void GUI_Triakis::setGUI(){
     names.push_back("Triakis Icosahedron");
     
     
+    gui->addSpacer();
+    gui->addLabelButton("Output STL", false);
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
@@ -362,6 +368,8 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Reset Raito"){
         obj->calcRaito();
         obj->calcMesh();
+    }else if(name == "Output STL"){
+        obj->outputStl();
     }
 }
 
@@ -388,6 +396,8 @@ void GUI_Tetrakis::setGUI(){
     gui = new ofxUISuperCanvas("Tetrakis", OFX_UI_FONT_MEDIUM);
     
     
+    gui->addSpacer();
+    gui->addLabelButton("output STL", false);
     gui->addSpacer();
     gui->addIntSlider("Radius", 30, 400, radius);
     gui->addSpacer();
@@ -416,6 +426,8 @@ void GUI_Tetrakis::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Reset Raito"){
         obj->calcRaito();
         obj->calcMesh();
+    }else if(name == "output STL"){
+        obj->outputStl();
     }
 }
 

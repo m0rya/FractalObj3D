@@ -85,6 +85,13 @@ void ofApp::setup(){
     
     //TT
     tt.calcMesh();
+    tt.setStl(&stl);
+    
+    //trks
+    trks.setStl(&stl);
+    
+    //ttrks
+    ttrks.setStl(&stl);
     
     
     

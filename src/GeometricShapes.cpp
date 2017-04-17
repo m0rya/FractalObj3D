@@ -22,7 +22,7 @@ truncatedTetrahedron::truncatedTetrahedron(int _radius){
 
 void truncatedTetrahedron::calcMesh(){
     mesh.clear();
-    
+    name = "truncated Tetrahedron";
     ofVec3f pointTetrahedron[4];
     ofVec3f pointTT[4][6];
     
