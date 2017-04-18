@@ -8,11 +8,10 @@
 
 #include "GeometricShapes.h"
 
-
 //TruncatedTetrahedron
 //切頂四面体
 
-truncatedTetrahedron::truncatedTetrahedron(int _radius){
+truncatedTetrahedron::truncatedTetrahedron(float _radius){
     radius = _radius;
     position = ofVec3f(0, 0, 0);
     
@@ -86,32 +85,11 @@ void truncatedTetrahedron::draw(){
     
 }
 
-/*
-ofColor truncatedTetrahedron::makeColorFromPoint(ofVec3f point, int max){
-    
-    ofColor result = ofColor(ofMap(point.x, -max, max, 0, 255), ofMap(point.y, -max, max*2, 0, 255), ofMap(point.z, -max, max, 0, 255, 250));
-    return result;
-}                         
-                          
-                          
-ofVec3f truncatedTetrahedron::getNormal(ofVec3f points[3]){
-    ofVec3f tmp[2];
-    ofVec3f normal;
-    tmp[0] = points[1]-points[0];
-    tmp[1] = points[2]-points[0];
-    
-    normal = ofVec3f(tmp[0].y*tmp[1].z-tmp[0].z*tmp[1].y, tmp[0].z*tmp[1].x-tmp[0].x*tmp[1].z, tmp[0].x*tmp[1].y-tmp[0].y*tmp[1].x);
-    normal.normalize();
-    
-    return normal;
-}
- */
-
 
 
 //setter
 
-void truncatedTetrahedron::setRadius(int _radius){
+void truncatedTetrahedron::setRadius(float _radius){
     radius = _radius;
     
     calcMesh();
@@ -132,3 +110,9 @@ void truncatedTetrahedron::reset(){
     itr = 0;
     calcMesh();
 }
+
+
+
+//Test for Kis
+
+

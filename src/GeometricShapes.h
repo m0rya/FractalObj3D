@@ -19,17 +19,25 @@ public:
     ofMesh mesh;
     makeStl *stl;
     string name;
+    float radius;
+    float raito;
+    
     void setStl(makeStl *_stl);
     ofVec3f getNormal(ofVec3f points[3]);
     ofColor getColorFromPoint(ofVec3f point, int max);
+    ofVec3f getCenterOfGravity(vector<ofVec3f> &point, float height);
     void outputStl();
     
     
+    //make mesh like triakis, tetrakis
+    void KisMesh(vector<ofVec3f> point, float raito);
 };
+
+
 
 class Tetrakis : public GeometricShapes{
 private:
-    float radius;
+
     void initOrigin();
     vector<ofVec3f> originPoint;
     //ofMesh mesh;
@@ -60,7 +68,6 @@ public:
 class truncatedTetrahedron : public GeometricShapes{
 private:
     //ofMesh mesh;
-    int radius;
     ofVec3f position;
     //ofVec3f getNormal(ofVec3f points[3]);
     //ofColor makeColorFromPoint(ofVec3f point, int max);
@@ -68,7 +75,7 @@ private:
     int fineness;
     int itr;
 public:
-    truncatedTetrahedron(int _radius);
+    truncatedTetrahedron(float _radius);
     
     void calcMesh();
     void draw();
@@ -77,7 +84,7 @@ public:
     
     //setter
     void setPosition(ofVec3f _position);
-    void setRadius(int _radius);
+    void setRadius(float _radius);
     
     void setFineness(int _fineness);
     void setItr(int _itr);
@@ -91,8 +98,8 @@ class Triakis : public GeometricShapes{
 private:
     //var
     ofVec3f position;
-    float radius;
     int mode;   //0: tetra, 1: octa, 2: Icosa
+    int numRecursion;
     
     //ofMesh mesh;
     vector<ofVec3f> points;
@@ -107,7 +114,10 @@ private:
     vector<ofVec3f> debugNormal;
     vector<ofVec3f> debugOrigin;
     
+    void recursion(vector<ofVec3f> &pointForRecursion, int n);
     
+    
+    vector<ofVec3f> argForRecursion;
     bool debugOrNot = false;
     
 public:

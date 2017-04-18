@@ -242,7 +242,9 @@ void ofApp::keyReleased(int key){
         pyTree.outputStl();
     }else if(key == 't'){
         myImage.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
-        myImage.saveImage("./pic/picture.png", OF_IMAGE_QUALITY_BEST);
+        string imgName = ofToString(ofGetFrameNum());
+        imgName += ".png";
+        myImage.saveImage(imgName, OF_IMAGE_QUALITY_BEST);
     }else if(key == '1'){
         exp.startExport();
     }
