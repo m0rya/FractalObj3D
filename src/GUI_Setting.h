@@ -120,6 +120,8 @@ public:
     float radius = 200;
     int mode = 2;
     float raito = 0.1;
+    float numRecursion = 0;
+    float height = 0;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

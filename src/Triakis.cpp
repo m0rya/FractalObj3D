@@ -249,7 +249,7 @@ void Triakis::debug(){
 
 void Triakis::recursion(vector<ofVec3f> &pointForRecursion, int n){
     
-    ofVec3f cntGravity = getCenterOfGravity(pointForRecursion, -10);
+    ofVec3f cntGravity = getCenterOfGravity(pointForRecursion, height);
     
     //if recursion is finhed , make Mesh
     if(n == 0){
@@ -574,4 +574,15 @@ void Triakis::setRaito(float _raito){
 
 float Triakis::getRaito(){
     return raito;
+}
+
+void Triakis::setHeight(float _height){
+    height = _height;
+    calcMesh();
+    
+}
+
+void Triakis::setNumRecursion(int _numRecursion){
+    numRecursion = _numRecursion;
+    calcMesh();
 }

@@ -328,6 +328,10 @@ void GUI_Triakis::setGUI(){
     gui->addSpacer();
     gui->addLabelButton("Reset Raito", false);
     gui->addSpacer();
+    gui->addIntSlider("Height", -30, 60, height);
+    gui->addSpacer();
+    gui->addIntSlider("Num Recursion", 0, 10, numRecursion);
+    gui->addSpacer();
     gui->addDropDownList("Mode", names);
     
     gui->setTheme(theme);
@@ -370,6 +374,12 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
         obj->calcMesh();
     }else if(name == "Output STL"){
         obj->outputStl();
+    }else if(name == "Height"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setHeight(n->getValue());
+    }else if(name == "Num Recursion"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setNumRecursion(n->getValue());
     }
 }
 

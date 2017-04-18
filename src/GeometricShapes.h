@@ -20,7 +20,7 @@ public:
     makeStl *stl;
     string name;
     float radius;
-    float raito;
+    float height;
     
     void setStl(makeStl *_stl);
     ofVec3f getNormal(ofVec3f points[3]);
@@ -133,6 +133,8 @@ public:
     void setRadius(float _radius);
     void setMode(int _mode);
     void setRaito(float _raito);
+    void setHeight(float _height);
+    void setNumRecursion(int _numRecursion);
     
     //getter
     float getRaito();
