@@ -15,52 +15,7 @@
  */
 
 
-ofVec3f GeometricShapes::getNormal(ofVec3f points[3]){
-    ofVec3f tmp[2];
-    ofVec3f normal;
-    tmp[0] = points[1]-points[0];
-    tmp[1] = points[2]-points[0];
-    
-    normal = ofVec3f(tmp[0].y*tmp[1].z-tmp[0].z*tmp[1].y, tmp[0].z*tmp[1].x-tmp[0].x*tmp[1].z, tmp[0].x*tmp[1].y-tmp[0].y*tmp[1].x);
-    normal.normalize();
-    
-    return normal;
-}
 
-ofColor GeometricShapes::getColorFromPoint(ofVec3f point, int max){
-    ofColor result = ofColor(ofMap(point.x, -max, max, 0, 255), ofMap(point.y, -max, max*2, 0, 255), ofMap(point.z, -max, max, 0, 255, 250));
-    return result; 
-}
-void GeometricShapes::setStl(makeStl *_stl){
-    stl = _stl;
-    
-}
-void GeometricShapes::outputStl(){
-    stl->outputStl(mesh, name);
-}
-
-ofVec3f GeometricShapes::getCenterOfGravity(vector<ofVec3f> &point, float height){
-    ofVec3f center = ofVec3f(0, 0, 0);
-    ofVec3f normal;
-    ofVec3f tmpArg[3];
-    
-    for(int i=0; i<point.size(); i++){
-        center += point[i];
-    }
-    center /= point.size();
-    
-    for(int i=0; i<3; i++) tmpArg[i] = point[i];
-    normal = getNormal(tmpArg);
-    
-    if(height < 0){
-        center += -1*normal.scale(abs(height));
-    }else{
-        center += normal.scale(abs(height));
-    }
-    
-    return center;
-    
-}
 
 /*
 void GeometricShapes::KisMesh(vector<ofVec3f> point, float height){
@@ -207,6 +162,7 @@ void Tetrakis::setRaito(float _raito){
 
 
 //========Triakis========
+
 Triakis::Triakis(float _radius){
     position = ofVec3f(0, 0, 0);
     radius = _radius;
@@ -295,8 +251,9 @@ void Triakis::recursion(vector<ofVec3f> &pointForRecursion, int n){
         recursion(argForRecursion, n-1);
     }
     
-    
 }
+
+
 void Triakis::calcMesh(){
     mesh.clear();
     
@@ -314,88 +271,115 @@ void Triakis::calcMesh(){
     if(mode == 0){
         //tetrahedron
         for(int i=0; i<3; i++){
-            argForRecursion.clear();
-            /*
             argMakeMesh[0] = points[0];
             argMakeMesh[1] = points[i+1];
             argMakeMesh[2] = points[(i+1)%3+1];
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.push_back(points[0]);
-            argForRecursion.push_back(points[i+1]);
-            argForRecursion.push_back(points[(i+1)%3+1]);
-            recursion(argForRecursion, numRecursion);
+            
+            if(modeRecursion == 0){
+                makeMesh(argMakeMesh);
+                
+                argForRecursion.clear();
+                argForRecursion.push_back(points[0]);
+                argForRecursion.push_back(points[i+1]);
+                argForRecursion.push_back(points[(i+1)%3+1]);
+                recursion(argForRecursion, numRecursion);
+            }else if(modeRecursion == 1){
+                triInTri(argMakeMesh, raito, 0, numRecursion);
+            }
         }
-        /*
+        
         argMakeMesh[0] = points[1];
         argMakeMesh[1] = points[3];
         argMakeMesh[2] = points[2];
+        /*
         makeMesh(argMakeMesh);
          */
-        argForRecursion.clear();
-        argForRecursion.push_back(points[1]);
-        argForRecursion.push_back(points[3]);
-        argForRecursion.push_back(points[2]);
-        recursion(argForRecursion, numRecursion);
+        if(modeRecursion == 0){
+            makeMesh(argMakeMesh);
+            argForRecursion.clear();
+            argForRecursion.push_back(points[1]);
+            argForRecursion.push_back(points[3]);
+            argForRecursion.push_back(points[2]);
+            recursion(argForRecursion, numRecursion);
+            
+        }else if(modeRecursion == 1) {
+            
+            triInTri(argMakeMesh, raito, 0, numRecursion);
+        }
         
         
     }else if(mode == 1){
         //octahedron
         for(int i=0; i<4; i++){
-            /*
             argMakeMesh[0] = points[0];
             argMakeMesh[1] = points[i+2];
             argMakeMesh[2] = points[(i+1)%4+2];
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.clear();
-            argForRecursion.push_back(points[0]);
-            argForRecursion.push_back(points[i+2]);
-            argForRecursion.push_back(points[(i+1)%4+2]);
-            recursion(argForRecursion, numRecursion);
+            
+            if(modeRecursion == 0){
+                makeMesh(argMakeMesh);
+                argForRecursion.clear();
+                argForRecursion.push_back(points[0]);
+                argForRecursion.push_back(points[i+2]);
+                argForRecursion.push_back(points[(i+1)%4+2]);
+                recursion(argForRecursion, numRecursion);
+            }else if(modeRecursion == 1){
+                
+                triInTri(argMakeMesh, raito, 0, numRecursion);
+            }
             
             
-            /*
             ofVec3f forSwap;
             argMakeMesh[0] = points[1];
             forSwap = argMakeMesh[1];
             argMakeMesh[1] = argMakeMesh[2];
             argMakeMesh[2] = forSwap;
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.clear();
-            argForRecursion.push_back(points[1]);
-            argForRecursion.push_back(points[(i+1)%4+2]);
-            argForRecursion.push_back(points[i+2]);
-            recursion(argForRecursion, numRecursion);
+            
+            if(modeRecursion == 0){
+                makeMesh(argMakeMesh);
+                argForRecursion.clear();
+                argForRecursion.push_back(points[1]);
+                argForRecursion.push_back(points[(i+1)%4+2]);
+                argForRecursion.push_back(points[i+2]);
+                recursion(argForRecursion, numRecursion);
+                
+            }else if(modeRecursion == 1){
+                triInTri(argMakeMesh, raito, 0, numRecursion);
+            }
         }
         
     }else if(mode == 2){
         //icosahedron
         for(int i=0; i<5; i++){
-            /*
             argMakeMesh[0] = points[0];
             argMakeMesh[1] = points[i+2];
             argMakeMesh[2] = points[(i+1)%5 + 2];
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.clear();
-            argForRecursion.push_back(points[0]);
-            argForRecursion.push_back(points[i+2]);
-            argForRecursion.push_back(points[(i+1)%5 + 2]);
-            recursion(argForRecursion, numRecursion);
             
-            /*
+            if(modeRecursion == 0) {
+                makeMesh(argMakeMesh);
+                argForRecursion.clear();
+                argForRecursion.push_back(points[0]);
+                argForRecursion.push_back(points[i+2]);
+                argForRecursion.push_back(points[(i+1)%5 + 2]);
+                recursion(argForRecursion, numRecursion);
+            }else if(modeRecursion == 1){
+                triInTri(argMakeMesh, raito, 0, numRecursion);
+            }
+            
             argMakeMesh[0] = points[1];
             argMakeMesh[1] = points[(i+1)%5 + 7];
             argMakeMesh[2] = points[i+7];
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.clear();
-            argForRecursion.push_back(points[1]);
-            argForRecursion.push_back(points[(i+1)%5 + 7]);
-            argForRecursion.push_back(points[i+7]);
-            recursion(argForRecursion, numRecursion);
+            
+            if(modeRecursion == 0){
+                makeMesh(argMakeMesh);
+                argForRecursion.clear();
+                argForRecursion.push_back(points[1]);
+                argForRecursion.push_back(points[(i+1)%5 + 7]);
+                argForRecursion.push_back(points[i+7]);
+                recursion(argForRecursion, numRecursion);
+            }else if(modeRecursion == 1){
+                
+                triInTri(argMakeMesh, raito, 0,numRecursion);
+            }
             
         }
         
@@ -403,17 +387,21 @@ void Triakis::calcMesh(){
             {7, 8, 5}, {8, 9, 6}, {9,10,2}, {10,11,3}, {11,7,4}};
         
         for(int i=0; i<10; i++){
-            /*
             argMakeMesh[0] = points[ind[i][0]];
             argMakeMesh[1] = points[ind[i][1]];
             argMakeMesh[2] = points[ind[i][2]];
-            makeMesh(argMakeMesh);
-             */
-            argForRecursion.clear();
-            argForRecursion.push_back(points[ind[i][0]]);
-            argForRecursion.push_back(points[ind[i][1]]);
-            argForRecursion.push_back(points[ind[i][2]]);
-            recursion(argForRecursion, numRecursion);
+            
+            if(modeRecursion == 0){
+                makeMesh(argMakeMesh);
+                argForRecursion.clear();
+                argForRecursion.push_back(points[ind[i][0]]);
+                argForRecursion.push_back(points[ind[i][1]]);
+                argForRecursion.push_back(points[ind[i][2]]);
+                recursion(argForRecursion, numRecursion);
+            }else if(modeRecursion == 1){
+                
+                triInTri(argMakeMesh, raito, 0, numRecursion);
+            }
         }
     }
 }
@@ -564,6 +552,12 @@ void Triakis::setMode(int _mode){
     mode = _mode;
     calcRaito();
     calcMesh();
+}
+
+void Triakis::setModeRecursion(int _mode){
+    modeRecursion = _mode;
+    calcMesh();
+    calcRaito();
 }
 
 void Triakis::setRaito(float _raito){

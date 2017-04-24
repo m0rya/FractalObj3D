@@ -217,7 +217,7 @@ void GUI_HexFractal::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Radius"){
         ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
         obj->setRadius(n->getValue());
-    }else if(name == "output STL file"){
+    }else if(name == "Output STL file"){
         obj->outputStlFile();
     }else if(name == "Mode"){
         ofxUIDropDownList *n = (ofxUIDropDownList *)e.widget;
@@ -318,6 +318,10 @@ void GUI_Triakis::setGUI(){
     names.push_back("Triakis Octahedron");
     names.push_back("Triakis Icosahedron");
     
+    vector<string> namesForModeRecursion;
+    namesForModeRecursion.push_back("0");
+    namesForModeRecursion.push_back("1");
+    
     
     gui->addSpacer();
     gui->addLabelButton("Output STL", false);
@@ -333,6 +337,9 @@ void GUI_Triakis::setGUI(){
     gui->addIntSlider("Num Recursion", 0, 10, numRecursion);
     gui->addSpacer();
     gui->addDropDownList("Mode", names);
+    gui->addSpacer();
+    gui->addDropDownList("Mode Recursion", namesForModeRecursion);
+    gui->addSpacer();
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -380,6 +387,12 @@ void GUI_Triakis::guiEvent(ofxUIEventArgs &e){
     }else if(name == "Num Recursion"){
         ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
         obj->setNumRecursion(n->getValue());
+    }else if(name == "Mode Recursion"){
+        ofxUIDropDownList *n = (ofxUIDropDownList *)e.widget;
+        vector<ofxUIWidget  *> &selected = n->getSelected();
+        if(selected.size() == 1){
+            obj->setModeRecursion(ofToInt(selected[0]->getName()));
+        }
     }
 }
 

@@ -26,6 +26,7 @@ public:
     ofVec3f getNormal(ofVec3f points[3]);
     ofColor getColorFromPoint(ofVec3f point, int max);
     ofVec3f getCenterOfGravity(vector<ofVec3f> &point, float height);
+    void triInTri(ofVec3f outPoint[3], float raito, int rotate, int n);
     void outputStl();
     
     
@@ -119,6 +120,7 @@ private:
     
     vector<ofVec3f> argForRecursion;
     bool debugOrNot = false;
+    int modeRecursion = 0;
     
 public:
     
@@ -135,6 +137,7 @@ public:
     void setRaito(float _raito);
     void setHeight(float _height);
     void setNumRecursion(int _numRecursion);
+    void setModeRecursion(int _mode);
     
     //getter
     float getRaito();
