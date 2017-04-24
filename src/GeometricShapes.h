@@ -27,6 +27,7 @@ public:
     ofColor getColorFromPoint(ofVec3f point, int max);
     ofVec3f getCenterOfGravity(vector<ofVec3f> &point, float height);
     void triInTri(ofVec3f outPoint[3], float raito, int rotate, int n);
+    void hexInHex(ofVec3f outPoint[6], float raito, float heightForHexInHex, int n);
     void outputStl();
     
     
@@ -75,6 +76,10 @@ private:
     
     int fineness;
     int itr;
+    
+    float raito;
+    float heightForHIH;
+    int numRecursion;
 public:
     truncatedTetrahedron(float _radius);
     
@@ -89,6 +94,10 @@ public:
     
     void setFineness(int _fineness);
     void setItr(int _itr);
+    
+    void setRaito(float _raito);
+    void setHeightForHIH(float _height);
+    void setNumRecursion(int _numRecursion);
     
     
     

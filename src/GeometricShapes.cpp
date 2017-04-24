@@ -104,110 +104,76 @@ void GeometricShapes::triInTri(ofVec3f outPoint[3], float raito, int rotate, int
 }
 
 
-
-
-//TruncatedTetrahedron
-//切頂四面体
-
-truncatedTetrahedron::truncatedTetrahedron(float _radius){
-    radius = _radius;
-    position = ofVec3f(0, 0, 0);
-    
-    fineness = 1;
-    itr = 0;
-    name = "truncated Tetrahedron";
-}
-
-void truncatedTetrahedron::calcMesh(){
-    mesh.clear();
-    ofVec3f pointTetrahedron[4];
-    ofVec3f pointTT[4][6];
-    
-    //calc point of tetrahedron
-    pointTetrahedron[0] = ofVec3f(position.x, position.y + sqrt(2)*radius , position.z);
-    for(int i=1; i<4; i++){
-        pointTetrahedron[i] = ofVec3f(position.x+radius*cos(-1*(i-1)*120*PI/180), position.y, position.z+radius*sin(-1*(i-1)*120*PI/180));
-    }
-    
-    //calc point of truncatedTetrahedron
-    ofVec3f tmp[3];
-    int dataSet[4][3] = {{0, 1, 2}, {0, 2, 3}, {0, 3, 1}, {1, 3, 2}};
-    
-    for(int i=0; i<4; i++){
-        for(int j=0; j<3; j++) tmp[j] = pointTetrahedron[dataSet[i][j]];
-        
-        for(int j=0; j<3; j++){
-            pointTT[i][j*2] = (tmp[(j+1)%3]-tmp[j])*(fineness-itr)/(2*fineness+1) + tmp[j];
-            pointTT[i][2*j+1] = (tmp[(j+1)%3]-tmp[j])*(fineness+itr+1)/(2*fineness+1) + tmp[j];
-        }
-    }
-    
-    int numVertices = mesh.getNumVertices();
-    //adding Vertex, Normal and Color
+void GeometricShapes::hexInHex(ofVec3f outPoint[6], float raito, float heightForHexInHex, int n){
+    ofVec3f newPoint[6];
     ofVec3f normal;
-    ofVec3f arg[3];
-    for(int i=0; i<4; i++){
-        arg[0] = pointTT[i][0];
-        arg[1] = pointTT[i][1];
-        arg[2] = pointTT[i][2];
+    int numVertices = mesh.getNumVertices();
+    
+    ofVec3f argForNormal[3];
+    for(int i=0; i<3; i++) argForNormal[i] = outPoint[i];
+    normal = getNormal(argForNormal);
+    
+    //making newPoint
+    for(int i=0; i<6; i++){
+        newPoint[i] = (outPoint[(i+1)%6] - outPoint[i]);
+        newPoint[i] *= raito;
+        newPoint[i] += outPoint[i];
+        newPoint[i] += normal.scale(heightForHexInHex);
         
-        normal = getNormal(arg);
+    }
+    
+    //adding vertex, normal and color
+    for(int i=0; i<6; i++){
+        mesh.addVertex(outPoint[i]);
+        mesh.addNormal(normal);
+        mesh.addColor(getColorFromPoint(outPoint[i], radius));
+    }
+    for(int i=0; i<6; i++){
+        mesh.addVertex(newPoint[i]);
+        mesh.addNormal(normal);
+        mesh.addColor(getColorFromPoint(newPoint[i], radius));
+    }
+    
+    //recursion finish
+    if(n == 0){
+        ofVec3f center = ofVec3f(0, 0, 0);
+        for(int i=0; i<6; i++) center += outPoint[i];
+        center /= 6;
+        mesh.addVertex(center);
+        mesh.addNormal(normal);
+        mesh.addColor(getColorFromPoint(center, radius));
         
-        for(int j=0; j<6; j++){
-            mesh.addVertex(pointTT[i][j]);
-            mesh.addNormal(normal);
-            mesh.addColor(getColorFromPoint(pointTT[i][j], radius));
+        for(int i=0; i<6; i++){
+            mesh.addIndex(numVertices + 12);
+            mesh.addIndex(numVertices + i);
+            mesh.addIndex(numVertices + (i+1)%6);
             
         }
+        return;
+    }
+    
+    //adding Index
+    for(int i=0; i<6; i++){
+        mesh.addIndex(numVertices + i);
+        mesh.addIndex(numVertices + (i+1)%6);
+        mesh.addIndex(numVertices + 6 + i);
+        
+        mesh.addIndex(numVertices + i);
+        mesh.addIndex(numVertices + 6 + i);
+        mesh.addIndex(numVertices + 6 + (i+5)%6);
     }
     
     
-    for(int i=0; i<4; i++){
-        for(int j=0; j<4; j++){
-            mesh.addIndex(numVertices + i*6);
-            mesh.addIndex(numVertices + i*6+1+j);
-            mesh.addIndex(numVertices + i*6+2+j);
-        }
-    }
-    int index[4][3] = {{0, 5, 11}, {3, 8, 4}, {9, 14, 10}, {2, 1, 15}};
-    for(int i=0; i<4; i++){
-        for(int j=0; j<3; j++) mesh.addIndex(index[i][j]);
-    }
+    //next recursion
+    hexInHex(newPoint, raito, heightForHexInHex, n-1);
+    
+    
     
     
 }
 
-void truncatedTetrahedron::draw(){
-    
-    mesh.draw();
-    
-}
 
 
-
-//setter
-
-void truncatedTetrahedron::setRadius(float _radius){
-    radius = _radius;
-    
-    calcMesh();
-}
-
-void truncatedTetrahedron::setFineness(int _fineness){
-    fineness = _fineness;
-    calcMesh();
-}
-
-void truncatedTetrahedron::setItr(int _itr){
-    itr = _itr;
-    calcMesh();
-}
-
-void truncatedTetrahedron::reset(){
-    fineness = 1;
-    itr = 0;
-    calcMesh();
-}
 
 
 

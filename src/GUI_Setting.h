@@ -103,6 +103,9 @@ public:
     float radius = 200;
     float fineness = 1;
     float itr = 0;
+    float numRecursion = 0;
+    float heightForHIH = 50;
+    float raito = 0.5;
     
     void setGUI();
     void guiEvent(ofxUIEventArgs &e);

@@ -264,6 +264,12 @@ void GUI_truncatedTetrahedron::setGUI(){
     gui->addSpacer();
     gui->addLabelButton("Reset", false);
     gui->addSpacer();
+    gui->addIntSlider("Num Recursion", 0, 10, numRecursion);
+    gui->addSpacer();
+    gui->addIntSlider("Height For Hex In Hex", -100, 100, heightForHIH);
+    gui->addSpacer();
+    gui->addSlider("Raito", -2.0, 2.0, raito);
+    
     
     gui->setTheme(theme);
     gui->setVisible(false);
@@ -289,6 +295,15 @@ void GUI_truncatedTetrahedron::guiEvent(ofxUIEventArgs &e){
         obj->reset();
     }else if(name == "Output STL"){
         obj->outputStl();
+    }else if(name == "Num Recursion"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setNumRecursion(n->getValue());
+    }else if(name == "Height For Hex In Hex"){
+        ofxUIIntSlider *n = (ofxUIIntSlider *)e.widget;
+        obj->setHeightForHIH(n->getValue());
+    }else if(name == "Raito"){
+        ofxUISlider *n = (ofxUISlider *)e.widget;
+        obj->setRaito(n->getValue());
     }
     
     

@@ -66,6 +66,7 @@
 		047D0DAC1E8B99720052EF9B /* pythagorasTree3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 047D0DAA1E8B99720052EF9B /* pythagorasTree3D.cpp */; };
 		048E31091E7F10430049BA53 /* RectDivision3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 048E31071E7F10430049BA53 /* RectDivision3D.cpp */; };
 		048E310D1E7FCC150049BA53 /* makeStl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 048E310B1E7FCC150049BA53 /* makeStl.cpp */; };
+		04E20EA21EAE675800D1704F /* TruncatedTetrahedron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04E20EA11EAE675800D1704F /* TruncatedTetrahedron.cpp */; };
 		04ED78071E9E0F7B00EE6A31 /* GeometricShapes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04ED78051E9E0F7B00EE6A31 /* GeometricShapes.cpp */; };
 		04ED78091E9F7B6600EE6A31 /* Triakis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04ED78081E9F7B6600EE6A31 /* Triakis.cpp */; };
 		04ED78111EA0B85F00EE6A31 /* Tetrakis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04ED780F1EA0B85F00EE6A31 /* Tetrakis.cpp */; };
@@ -231,6 +232,7 @@
 		048E31081E7F10430049BA53 /* RectDivision3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectDivision3D.h; sourceTree = "<group>"; };
 		048E310B1E7FCC150049BA53 /* makeStl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = makeStl.cpp; sourceTree = "<group>"; };
 		048E310C1E7FCC150049BA53 /* makeStl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = makeStl.h; sourceTree = "<group>"; };
+		04E20EA11EAE675800D1704F /* TruncatedTetrahedron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TruncatedTetrahedron.cpp; sourceTree = "<group>"; };
 		04ED78051E9E0F7B00EE6A31 /* GeometricShapes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometricShapes.cpp; sourceTree = "<group>"; };
 		04ED78061E9E0F7B00EE6A31 /* GeometricShapes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometricShapes.h; sourceTree = "<group>"; };
 		04ED78081E9F7B6600EE6A31 /* Triakis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triakis.cpp; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				04ED78061E9E0F7B00EE6A31 /* GeometricShapes.h */,
 				04ED78081E9F7B6600EE6A31 /* Triakis.cpp */,
 				04ED780F1EA0B85F00EE6A31 /* Tetrakis.cpp */,
+				04E20EA11EAE675800D1704F /* TruncatedTetrahedron.cpp */,
 			);
 			name = FlactalObj;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 				044FB71D1E8CD1200098BA50 /* ofxUIToggle.cpp in Sources */,
 				044FB7071E8CD1200098BA50 /* ofxUIImageToggle.cpp in Sources */,
 				044FB6FA1E8CD1200098BA50 /* ofxUIBiLabelSlider.cpp in Sources */,
+				04E20EA21EAE675800D1704F /* TruncatedTetrahedron.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				044FB7221E8CD1200098BA50 /* ofxUIWidgetWithLabel.cpp in Sources */,
 				044FB7261E8CD1740098BA50 /* GUI_Setting.cpp in Sources */,
